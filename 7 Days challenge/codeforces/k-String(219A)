@@ -1,0 +1,114 @@
+#include<bits/stdc++.h>
+using namespace std;
+typedef		long long       ll;
+typedef		vector<ll>      vll;
+#define		pb              push_back
+string intostr(int x)
+{
+    stringstream ss;
+    ss << x;
+    string str = ss.str();
+    return str;
+}
+
+char Uplowch(char ch)
+{
+    if(ch >= 'A' &&  ch <= 'Z')
+        ch += 32;
+    return ch;
+}
+char Lowupch(char ch)
+{
+    if(ch >= 'a' &&  ch <= 'z')
+        ch -= 32;
+    return ch;
+}
+bool Isalpha(char ch)
+{
+    if((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z'))
+        return true;
+    return false;
+}
+int Strtoint(string str)
+{
+    stringstream ss(str);
+    int x = 0;
+    ss >> x ;
+    return x ;
+}
+string Intostr(int x)
+{
+    stringstream ss;
+    ss << x;
+    string str = ss.str();
+    return str;
+}
+
+#define		PB              pop_back
+#define		nn              "\n"
+#define		all(p)          p.begin(),p.end()
+#define		zz(v)           (ll)v.size()
+#define		ss              ' '
+#define 	S(a)            scanf("%lld",&a)
+#define 	SS(a,b)         scanf("%lld %lld",&a,&b)
+#define 	SSS(a,b,c)      scanf("%lld %lld %lld",&a,&b,&c)
+#define		gcd(a,b)        __gcd(a,b)
+#define		lcm(a,b)        (a*b)/gcd(a,b)
+#define		pi              acos(-1.0)
+
+//int dx[] = {0 , 0 , -1 , 1 , -1 , -1 , 1 , 1 , 0} ;
+//int dy[] = {1 ,-1 , 0 , 0 , -1 , 1 , -1 , 1 , 0} ;
+
+int dx[] = {0, 0, -1, 1} ;    // right , left , forward , backward
+int dy[] = {1, -1, 0, 0} ;
+
+//bool check(int x , int y) {
+//    if(x <= n && y <= m && x >= 1 && y >= 1)
+//        return 1 ;
+//    return 0 ;
+//}
+
+int main()
+{
+    //freopen("in.txt","r",stdin);
+
+    ll n;
+    string s;
+    cin>>n;
+    cin>>s;
+    ll c[26]={0};
+    for(ll i=0;i<zz(s);i++)
+    {
+        c[s[i]-'a']++;
+    }
+
+    ll ch=1;
+
+    for(ll i=0;i<26;i++)
+    {
+        if(c[i]%n!=0)
+        {
+            ch=0;
+        }
+    }
+    if(!ch)
+    {
+        cout<<-1<<nn;
+
+    }
+    else{
+
+        string ans="";
+        for(ll i=0;i<26;i++)
+        {
+            ll t= c[i]/n;
+            while(t--) ans+=i+'a';
+        }
+        while(n--) cout<<ans;
+        cout<<nn;
+    }
+
+
+
+}
+
