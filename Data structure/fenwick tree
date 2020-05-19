@@ -1,0 +1,79 @@
+#include<bits/stdc++.h>
+using namespace std;
+typedef		int       ll;
+typedef		vector<ll>      vll;
+#define		pb              push_back
+#define		nn              "\n"
+#define		all(p)          p.begin(),p.end()
+#define		zz(v)           (ll)v.size()
+#define 	S(a)            scanf("%lld",&a)
+#define 	SS(a,b)         scanf("%lld %lld",&a,&b)
+#define 	SSS(a,b,c)      scanf("%lld %lld %lld",&a,&b,&c)
+#define		ss              ' '
+#define     pii             pair<ll,ll>
+const double eps = 1e-8;
+const ll N=1e6+10;
+
+ll fen[N];
+
+update(ll i,ll add)
+{
+    while(i<N)
+    {
+        fen[i]+=add;
+        i+=(i&(-i));
+    }
+}
+
+ll sum(ll i)
+{
+    ll s=0;
+    while(i>0)
+    {
+        s+=fen[i];
+        i-=(i&(-i));
+    }
+    return s;
+}
+
+
+
+int main()
+{
+
+//     ios::sync_with_stdio(0);
+//	cin.tie(0);
+
+    ll n;
+    cin>>n;
+    ll ar[n+1];
+
+    for(ll i=1; i<=n; i++)
+    {
+        cin>>ar[i];
+    }
+
+    for(ll i=1; i<=n; i++)
+    {
+        update(i,ar[i]);
+    }
+
+    // update
+    ll index=2,value=3;
+    update(index,value-ar[index]);
+
+    ll q;
+    cin>>q;
+    while(q--)
+    {
+        ll i;
+        cin>>i;
+        cout<<sum(i)<<nn;
+    }
+
+
+
+
+
+}
+
