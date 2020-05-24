@@ -1,0 +1,79 @@
+#include<bits/stdc++.h>
+using namespace std;
+typedef		long long       ll;
+typedef		vector<ll>      vll;
+#define     fi              first
+#define     se              second
+#define		pb              push_back
+#define		nn              "\n"
+#define		all(p)          p.begin(),p.end()
+#define		zz(v)           (ll)v.size()
+#define 	S(a)            scanf("%lld",&a)
+#define 	SS(a,b)         scanf("%lld %lld",&a,&b)
+#define 	SSS(a,b,c)      scanf("%lld %lld %lld",&a,&b,&c)
+#define		ss              ' '
+#define     pii             pair<ll,ll>
+const double eps = 1e-8;
+
+
+
+bool comp(pair<int,int>p1, pair<int,int>p2) {
+	if(p1.second < p2.second) {
+		return true;
+	} else if(p1.second == p2.second){
+		if(p1.first>p2.second) return true;
+	}
+	return false;
+}
+
+void explainExtra() {
+
+	sort(a+2, a+4); // [first, last)
+        // reverse order
+	sort(a, a+n, greater<int>);
+
+    pair<int,int> a[] = {{1,2}, {2, 1}, {4, 1}};
+
+    // sort it according to second element
+    // if second element is same, then sort
+    // it according to first element but in descending
+
+	sort(a, a+n ,comp);
+
+	// {4,1}, {2, 1}, {1, 2}};
+
+
+	int num = 7; // 111
+	int cnt = __builtin_popcount();
+
+	long long num = 165786578687;
+	int cnt = __builtin_popcountll();
+
+
+	string s = "123";
+
+	do {
+		cout << s << endl;
+	} while(next_permutation(s.begin(), s.end()));
+
+	// 123
+	// 132
+	// 213
+	// 231
+	// 312
+	// 321
+
+	int maxi = *max_element(a,a+n);
+}
+
+
+
+int main()
+{
+
+
+
+
+
+}
+

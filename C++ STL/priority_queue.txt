@@ -1,0 +1,50 @@
+#include<bits/stdc++.h>
+using namespace std;
+typedef		long long       ll;
+typedef		vector<ll>      vll;
+#define     fi              first
+#define     se              second
+#define		pb              push_back
+#define		nn              "\n"
+#define		all(p)          p.begin(),p.end()
+#define		zz(v)           (ll)v.size()
+#define 	S(a)            scanf("%lld",&a)
+#define 	SS(a,b)         scanf("%lld %lld",&a,&b)
+#define 	SSS(a,b,c)      scanf("%lld %lld %lld",&a,&b,&c)
+#define		ss              ' '
+#define     pii             pair<ll,ll>
+const double eps = 1e-8;
+
+
+void explainPQ() {
+	priority_queue<int>pq;
+
+	pq.push(5); // {5}
+	pq.push(2); // {5, 2}
+	pq.push(8); // {8, 5, 2}
+	pq.emplace(10); // {10, 8, 5, 2}
+
+	cout << pq.top(); // prints 10
+
+	pq.pop(); // {8, 5, 2}
+
+	cout << pq.top(); // prints 8
+
+	// size swap empty function same as others
+
+	// Minimum Heap
+	priority_queue<int, vector<int>, greater<int>> pq;
+	pq.push(5); // {5}
+	pq.push(2); // {2, 5}
+	pq.push(8); // {2, 5, 8}
+	pq.emplace(10); // {2, 5, 8, 10}
+
+	cout << pq.top(); // prints 2
+
+}
+
+int main()
+{
+
+}
+
