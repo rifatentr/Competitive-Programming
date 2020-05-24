@@ -1,0 +1,46 @@
+#include<bits/stdc++.h>
+using namespace std;
+typedef		long long       ll;
+typedef		vector<ll>      vll;
+#define          fi              first
+#define          se              second
+#define		pb              push_back
+#define		nn              "\n"
+#define		all(p)          p.begin(),p.end()
+#define		zz(v)           (ll)v.size()
+#define 	S(a)            scanf("%lld",&a)
+#define 	SS(a,b)         scanf("%lld %lld",&a,&b)
+#define 	SSS(a,b,c)      scanf("%lld %lld %lld",&a,&b,&c)
+#define		ss              ' '
+#define     pii             pair<ll,ll>
+const double eps = 1e-8;
+
+void explainQueue()
+{
+    queue<int> q;
+    q.push(1); // {1}
+    q.push(2); // {1, 2}
+    q.emplace(4); // {1, 2, 4}
+
+    q.back() += 5;
+
+    cout << q.back(); // prints 9
+
+    // Q is {1, 2, 9}
+    cout << q.front(); // prints 1
+
+    q.pop(); // {2, 9}
+
+    cout << q.front(); 
+     // prints 2
+
+    // size swap empty same as stack
+}
+
+
+int main()
+{
+   explainQueue();
+
+}
+
