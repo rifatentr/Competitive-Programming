@@ -1,0 +1,52 @@
+#include<bits/stdc++.h>
+using namespace std;
+typedef		long long       ll;
+typedef		vector<ll>      vll;
+#define     fi              first
+#define     se              second
+#define		pb              push_back
+#define		nn              "\n"
+#define		all(p)          p.begin(),p.end()
+#define		zz(v)           (ll)v.size()
+#define 	S(a)            scanf("%lld",&a)
+#define 	SS(a,b)         scanf("%lld %lld",&a,&b)
+#define 	SSS(a,b,c)      scanf("%lld %lld %lld",&a,&b,&c)
+#define		ss              ' '
+#define     pii             pair<ll,ll>
+const double eps = 1e-8;
+
+
+int main()
+{
+    ll n,wt;
+    cin>>n>>wt;
+    ll w[n+5];
+    ll val[n+5];
+    for(ll i=1; i<=n; i++)
+    {
+        cin>>w[i]>>val[i];
+    }
+    ll dp[n+1][wt+1];
+
+    for(ll i=0; i<=n; i++)
+        for(ll j=0; j<=wt; ++j)
+        {
+
+            if(i==0||j==0)
+            {
+                dp[i][j]=0;
+                continue;
+            }
+            if(j>=w[i])
+                dp[i][j]=max(dp[i-1][j],val[i]+dp[i-1][j-w[i]]);
+            else
+                dp[i][j]=dp[i-1][j];
+        }
+
+
+
+    cout<<dp[n][wt]<<nn;
+
+
+}
+
