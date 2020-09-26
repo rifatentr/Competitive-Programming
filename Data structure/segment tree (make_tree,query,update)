@@ -1,0 +1,108 @@
+#include<bits/stdc++.h>
+using namespace std;
+typedef     long long       ll;
+typedef     vector<ll>      vll;
+#define     pb              push_back
+#define     nn              "\n"
+#define     all(p)          p.begin(),p.end()
+#define     zz(v)           (ll)v.size()
+#define     ss              ' '
+#define     pii             pair<ll,ll>
+#define     gcd(a,b)        __gcd(a,b)
+#define     lcm(a,b)        (a*b)/gcd(a,b)
+#define     S(a)            scanf("%lld",&a)
+#define     SS(a,b)         scanf("%lld %lld",&a,&b)
+#define     SSS(a,b,c)      scanf("%lld %lld %lld",&a,&b,&c)
+ll tree[400005];
+ll ar[100005];
+
+ll make_tree(ll node,ll b,ll e)
+{
+    ll x,y;
+    if(b==e)
+    {
+        tree[node]=ar[b];
+        return ar[b];
+    }
+
+    x=make_tree(node*2,b,(b+e)/2);
+    y=make_tree(node*2+1,(b+e)/2+1,e);
+
+    tree[node]=min(x,y);
+
+    return tree[node];
+}
+
+ll val (ll node,ll b,ll e,ll i,ll j)
+{
+    ll x,y;
+    if(b>j||e<i)
+        return INT_MAX;
+    if(b>=i&&e<=j)
+        return tree[node];
+
+    x=val(node*2,b,(b+e)/2,i,j);
+    y=val(node*2+1,(b+e)/2+1,e,i,j);
+
+    return min(x,y);
+
+}
+
+void update_value(ll node,ll b,ll e,ll i,ll num)
+{
+    if(b==e&&b==i)
+    {
+        ar[i]=num;
+        tree[node]=ar[i];
+        return;
+    }
+    if(i<b||i>e)
+        return ;
+
+    ll l=node*2;
+    ll r=l+1;
+    ll m=(b+e)/2;
+    update_value(l,b,m,i,num);
+    update_value(r,m+1,e,i,num);
+
+    tree[node]=min(tree[l],tree[r]);
+
+}
+
+
+
+
+int main()
+{
+//    ios::sync_with_stdio(0);
+//    cin.tie(0);
+
+    ll in=1;
+    ll t;
+    S(t);
+    while(t--)
+    {
+        ll n,m;
+        SS(n,m);
+        for(ll i=1; i<=n; i++)
+        {
+            S(ar[i]);
+        }
+        ll kk= make_tree(1,1,n);
+        
+        ll where=4,which=-1;
+        
+        update_value(1,1,n,where,which);
+        printf("Case %lld:\n", in++);
+
+        while(m--)
+        {
+            ll a,b;
+            SS(a,b);
+            printf("%lld\n",val(1,1,n,a,b));
+        }
+
+
+    }
+
+}
