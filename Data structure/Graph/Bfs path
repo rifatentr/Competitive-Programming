@@ -1,0 +1,74 @@
+#include<bits/stdc++.h>
+using namespace std;
+typedef		long long       ll;
+typedef		vector<ll>      vll;
+#define		pb              push_back
+#define		PB              pop_back
+#define		nn              "\n"
+#define		all(p)          p.begin(),p.end()
+#define		zz(v)           (ll)v.size()
+#define		ss              ' '
+#define 	S(a)            scanf("%lld",&a)
+#define 	SS(a,b)         scanf("%lld %lld",&a,&b)
+#define 	SSS(a,b,c)      scanf("%lld %lld %lld",&a,&b,&c)
+#define		gcd(a,b)        __gcd(a,b)
+#define		lcm(a,b)        (a*b)/gcd(a,b)
+#define		pi              acos(-1.0)
+
+vll v[10];
+ll visited[10],pt[10];
+ll level[10];
+
+void bfs(ll u){
+    visited[u]=1;
+    level[u]=0;
+    queue<ll>q;
+    q.push(u);
+    pt[u]=u;
+
+    while(!q.empty()){
+        u=q.front();
+        visited[u]=1;
+        q.pop();
+        visited[u]=1;
+
+        for(ll i=0;i<zz(v[u]);i++){
+            ll p=v[u][i];
+            if(!visited[p]){
+                visited[p]=1;
+                level[p]=level[u]+1;
+                pt[p]=u;
+                q.push(p);
+            }
+        }
+    }
+
+}
+
+int main()
+{
+    ll a,b,c,i,j,s,t,k,node,edge;
+    SS(node,edge);
+    for(i=1;i<=edge;i++){
+        SS(a,b);
+        v[a].pb(b);
+        v[b].pb(a);
+    }
+    S(s); // source
+    bfs(s);
+    S(t); // destination
+    if(visited[t]==0) printf("no path\n");
+    else{
+        vll path;
+        path.pb(t);
+        ll now=t;
+        while(now!=s){
+            now=pt[now];
+            path.pb(now);
+        }
+        reverse(all(path));
+        for(i=0;i<zz(path);i++) cout<<path[i]<<ss;
+    }
+
+    return 0;
+}
