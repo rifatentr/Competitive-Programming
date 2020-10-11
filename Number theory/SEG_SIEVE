@@ -1,0 +1,90 @@
+#include<bits/stdc++.h>
+using namespace std;
+typedef		long long       ll;
+typedef		vector<ll>      vll;
+#define		pb              push_back
+#define         O_O             ios_base::sync_with_stdio(false); cin.tie(NULL)
+#define		PB              pop_back
+#define		nn              "\n"
+#define		all(p)          p.begin(),p.end()
+#define		zz(v)           (ll)v.size()
+#define		ss              ' '
+#define 	S(a)            scanf("%lld",&a)
+#define 	SS(a,b)         scanf("%lld %lld",&a,&b)
+#define 	SSS(a,b,c)      scanf("%lld %lld %lld",&a,&b,&c)
+#define		gcd(a,b)        __gcd(a,b)
+#define		lcm(a,b)        (a*b)/gcd(a,b)
+#define		pi              acos(-1.0)
+#define mx 32000
+
+vll vp;
+
+void sieve()
+{
+    bool isp[mx];
+    for(ll i=0;i<mx;i++) isp[i]=true ;
+    for(ll i = 3; i<=mx ; i+=2)
+    {
+        if(isp[i])
+        {
+            for(ll j = i*i ; j<=mx ; j += i )
+            {
+                isp[j]=false;
+            }
+        }
+    }
+    vp.pb(2);
+    for(ll i = 3 ; i < mx ; i+=2)
+    {
+        if(isp[i]) vp.pb(i);
+    }
+
+}
+
+void segsieve(ll l,ll r)
+{
+    bool isp[r-l+1];
+    for(ll i=0;i<r-l+1;i++) isp[i]=true;
+    if(l==1)
+    isp[0] = false ;
+    for(ll i=0;vp[i]*vp[i]<=r;i++)
+    {
+        ll cp=vp[i];
+        ll base = (l/cp)*cp;
+        if(base < l ) base+=cp;
+
+        for(ll j = base ; j<= r ; j+=cp)
+        {
+            isp[j-l]= false ;
+        }
+        if(base == cp ) isp[base-l] = true;
+    }
+
+    for(ll i=0;i<r-l+1;i++) if(isp[i]) cout<< i+l<<nn;
+
+}
+
+
+
+
+int main()
+{
+      // freopen("in.txt","r",stdin);
+      sieve();
+
+      //for(ll i=0;i<10;i++) cout<<vp[i]<<ss;
+
+      ll t,l ,r;
+      cin>>t;
+      while(t--)
+      {
+          cin>>l>>r;
+          segsieve(l,r);
+      }
+
+
+
+
+
+    return 0;
+}
