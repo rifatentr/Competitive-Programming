@@ -1,0 +1,397 @@
+#include<bits/stdc++.h>
+using namespace std;
+typedef		 long long int    ll;
+typedef		 long double   ld;
+typedef		vector<ll>      vll;
+#define     fi              first
+#define     print(v)        for(ll i:v) cout<<i<<ss
+#define     se              second
+#define		pb              push_back
+#define		nn              "\n"
+#define		all(p)          p.begin(),p.end()
+#define		zz(v)           (ll)v.size()
+#define 	S(a)            scanf("%lld",&a)
+#define 	SS(a,b)         scanf("%lld %lld",&a,&b)
+#define 	SSS(a,b,c)      scanf("%lld %lld %lld",&a,&b,&c)
+#define		ss              ' '
+#define     pii             pair<ll,ll>
+#define		gcd(a,b)        __gcd(a,b)
+#define		lcm(a,b)        (a*b)/gcd(a,b)
+const double eps = 1e-8;
+const ll  N=300010;
+
+ll s1,s2;
+
+void pw(ll k)
+{
+    s1=1;
+    s2=0;
+    while(s1*2<=k)
+    {
+        s1=s1*2;
+        s2++;
+    }
+}
+
+vll adj[N];
+ll up[N][20];
+ll n,l;
+ll timer;
+ll tin[N],tout[N],lev[N];
+
+void dfs(ll u,ll p)
+{
+    tin[u]=++timer;
+    up[u][0]=p;
+    for(ll i=1; i<=l; i++)
+    {
+        up[u][i] = up[up[u][i-1]][i-1];
+    }
+    lev[u]=lev[p]+1;
+
+    for(ll child : adj[u])
+    {
+        if(child==p)
+            continue;
+        dfs(child,u);
+    }
+
+    tout[u]=++timer;
+
+}
+
+bool is_ancestor(ll u,ll v)
+{
+    return tin[u]<=tin[v]&&tout[u]>=tout[v];
+}
+
+ll lca(ll u,ll v)
+{
+    if(is_ancestor(u,v))
+        return u;
+    if(is_ancestor(v,u))
+        return v;
+    for(ll i=l; i>=0; i--)
+    {
+        if(!is_ancestor(up[u][i],v))
+        {
+            u=up[u][i];
+        }
+    }
+    return up[u][0];
+}
+
+
+
+int main()
+{
+
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+//  cout<<fixed<<setprecision(10);
+    cin>>n;
+    timer=0;
+    l = ceil(log2(n));
+
+    for(ll i=1; i<n; i++)
+    {
+        ll a,b;
+        cin>>a>>b;
+        adj[a].pb(b);
+        adj[b].pb(a);
+    }
+    lev[1]=-1;
+    dfs(1,1);
+    ll q;
+    cin>>q;
+//    while(q--)
+//    {
+//        ll a,b;
+//        cin>>a>>b;
+//        cout<<lca(a,b)<<nn;
+//    }
+    while(q--)
+    {
+        ll a,b,c;
+        cin>>a>>b>>c;
+
+        ll node=lca(a,b);
+        // cout<<node<<nn;
+
+        ll m=lev[node];
+        ll left=lev[a]-m;
+        ll right=lev[b]-m;
+        // cout<<left<<ss<<right<<nn;
+        ll tot=(left+right);
+        if(tot<=c)
+        {
+            cout<<b<<nn;
+        }
+        else
+        {
+            if(c<left)
+            {
+                ll cur=a;
+                tot=c;
+                while(tot>0)
+                {
+                    pw(tot);
+                    cur=up[cur][s2];
+                    tot-=s1;
+                }
+                cout<<cur<<nn;
+            }
+            else
+            {
+
+                ll cur=b;
+                //tot=c;
+                tot=(left+right)-c;
+                //cout<<tot<<nn;
+                while(tot>0)
+                {
+                    pw(tot);
+                    cur=up[cur][s2];
+                    tot-=s1;
+                }
+                cout<<cur<<nn;
+            }
+        }
+
+    }
+
+
+}
+
+
+/* Final check before submit :
+
+1. array size or integer overflow,like uninitialised 0 index.
+
+2. Think twice,code once.check all possible counter test case.
+
+3. Be careful about corner case! n=1?k=1? something about 0?
+
+4. avoid stupid mistake!complexity(t/m)?precision error?submit same code twice?
+
+5. if got WA than remember that you are missing something common.
+   *** Be confident!!! who knows? may be your one step back to AC ***
+4. minus mod ans=(ans-k+mod)%mod;
+
+*/
+
+
+
+
+
+binary lifting with wight :::
+
+
+
+
+
+
+
+#include<bits/stdc++.h>
+using namespace std;
+typedef		 long long int    ll;
+typedef		 long double   ld;
+typedef		vector<ll>      vll;
+#define     fi              first
+#define     print(v)        for(ll i:v) cout<<i<<ss
+#define     se              second
+#define		pb              push_back
+#define		nn              "\n"
+#define		all(p)          p.begin(),p.end()
+#define		zz(v)           (ll)v.size()
+#define 	S(a)            scanf("%lld",&a)
+#define 	SS(a,b)         scanf("%lld %lld",&a,&b)
+#define 	SSS(a,b,c)      scanf("%lld %lld %lld",&a,&b,&c)
+#define		ss              ' '
+#define     pii             pair<ll,ll>
+#define		gcd(a,b)        __gcd(a,b)
+#define		lcm(a,b)        (a*b)/gcd(a,b)
+const double eps = 1e18;
+const ll inf= 1e18;
+const ll  N=300010;
+
+ll s1,s2;
+
+void pw(ll k)
+{
+    s1=1;
+    s2=0;
+
+    while(s1*2<=k)
+    {
+        s1*=2;
+        s2++;
+    }
+}
+
+
+vector<pii>adj[N];
+vector<vector<pii>> up(N,vector<pii>(20, {0,0}));
+ll timer;
+ll in[N],out[N],lev[N];
+ll l;
+void dfs(ll u,ll p)
+{
+    in[u]=++timer;
+
+    lev[u]=lev[p]+1;
+    if(u==p)
+    {
+        up[u][0]= {p,inf};
+    }
+
+    for(ll i=1; i<=l; i++)
+    {
+        ll x=up[u][i-1].se;
+        ll y=up[up[u][i-1].fi][i-1].se;
+        up[u][i]= {up[up[u][i-1].fi][i-1].fi,min(x,y)};
+
+    }
+
+    for(pii child : adj[u])
+    {
+        if(child.fi==p)
+            continue;
+        up[child.fi][0]= {u,child.se};
+
+        dfs(child.fi,u);
+
+    }
+
+
+    out[u]=++timer;
+
+}
+
+bool is_ancestor(ll u,ll v)
+{
+    return in[u]<=in[v]&&out[u]>=out[v];
+}
+
+ll lca(ll u,ll v)
+{
+    if(is_ancestor(u,v))
+    {
+        return u;
+    }
+
+    if(is_ancestor(v,u))
+    {
+        return v;
+    }
+
+    for(ll i=l; i>=0; i--)
+    {
+        if(!is_ancestor(up[u][i].fi,v))
+        {
+            u=up[u][i].fi;
+        }
+    }
+    return up[u][0].fi;
+}
+
+int main()
+{
+//
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+
+    ll n,m;
+    cin>>n>>m;
+    l = ceil(log2(n));
+    for(ll i=0; i<m; i++)
+    {
+        ll a,b,w;
+        cin>>a>>b>>w;
+        adj[a].pb({b,w});
+        adj[b].pb({a,w});
+    }
+    lev[1]=0;
+    dfs(1,1);
+
+//    for(ll i=1; i<=n; i++)
+//    {
+//        for(ll j=0; j<3; j++)
+//        {
+//            cout<<"("<<up[i][j].fi<<","<<up[i][j].se<<")"<<ss;
+//        }
+//        cout<<nn;
+//    }
+
+    ll q;
+    cin>>q;
+    while(q--)
+    {
+        ll a,b;
+        cin>>a>>b;
+        ll node = lca(a,b);
+        ll h=lev[node];
+        ll h1=lev[a]-h;
+        ll h2=lev[b]-h;
+        ll ans=inf;
+
+        ll cur=a;
+        while(h1)
+        {
+            pw(h1);
+            ans=min(ans,up[cur][s2].se);
+            cur=up[cur][s2].fi;
+            h1-=s1;
+        }
+        cur=b;
+
+        while(h2)
+        {
+            pw(h2);
+            ans=min(ans,up[cur][s2].se);
+            cur=up[cur][s2].fi;
+            h2-=s1;
+        }
+
+        cout<<ans<<nn;
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+}
+
+
+/* Final check before submit :
+
+1. array size or integer overflow,like uninitialised 0 index.
+
+2. Think twice,code once.check all possible counter test case.
+
+3. Be careful about corner case! n=1?k=1? something about 0?
+
+4. avoid stupid mistake!complexity(t/m)?precision error?submit same code twice?
+
+5. if got WA than remember that you are missing something common.
+   *** Be confident!!! who knows? may be your one step back to AC ***
+4. minus mod ans=(ans-k+mod)%mod;
+
+*/
+
+
+
+
+
+
+
+
+
