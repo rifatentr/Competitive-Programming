@@ -1,0 +1,68 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define		pb              push_back
+#define		PB              pop_back
+#define		nn              "\n"
+#define		all(p)          p.begin(),p.end()
+#define		zz(v)           v.size()
+#define		ss              ' '
+#define 	S(a)            scanf("%lld",&a)
+#define 	SS(a,b)         scanf("%lld %lld",&a,&b)
+#define 	SSS(a,b,c)      scanf("%lld %lld %lld",&a,&b,&c)
+#define		gcd(a,b)        __gcd(a,b)
+#define		lcm(a,b)        (a*b)/gcd(a,b)
+#define		pi              acos(-1.0)
+typedef		long long       ll;
+typedef		vector<ll>      vll;
+
+vll v[10];
+ll visited[10];
+ll level[10];
+
+void bfs(ll u)
+{
+    visited[u]=1;
+    level[u]=0;
+    queue<ll>q;
+    q.push(u);
+
+    while(!q.empty())
+    {
+        u=q.front();
+        visited[u]=1;
+        q.pop();
+
+        for(ll i=0; i<zz(v[u]); i++)
+        {
+            ll p=v[u][i];
+            if(!visited[p])
+            {
+                q.push(p);
+                visited[p]=1;
+                level[p]=level[u]+1;
+
+            }
+        }
+    }
+
+}
+
+int main()
+{
+    freopen("in.txt","r",stdin);
+    ll a,b,c,i,j,t,k,node,edge;
+    cin>>node>>edge;
+    for(i=1; i<=edge; i++)
+    {
+        cin>>a>>b;
+        v[a].pb(b);
+        v[b].pb(a);
+    }
+
+    bfs(0);
+   for(ll i=0;i<node;i++)
+   {
+       cout<<"dis of "<<i<<"  is : "<<level[i]<<nn;
+   }
+    return 0;
+}
