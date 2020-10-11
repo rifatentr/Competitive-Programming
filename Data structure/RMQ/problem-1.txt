@@ -1,0 +1,15 @@
+we have an array of n mumbers and a another number is K.
+you have tell for every i index how far you can go to right j
+so that abs(ar[i]-ar[j])<=k ans i<j (not necessarily consecutive)
+
+print j for every i.
+
+input : 
+5 2
+1 2 3 4 5
+
+output :
+3 4 5 5 5
+ 
+
+hints: RMQ(mn and mx)+binary search
