@@ -1,0 +1,249 @@
+#include<bits/stdc++.h>
+using namespace std;
+typedef      long long int    ll;
+typedef      long double   ld;
+typedef     vector<ll>      vll;
+#define     fi              first
+#define     print(v)        for(ll i:v) cout<<i<<ss
+#define     se              second
+#define     pb              push_back
+#define     nn              "\n"
+#define     all(p)          p.begin(),p.end()
+#define     zz(v)           (ll)v.size()
+#define     S(a)            scanf("%lld",&a)
+#define     SS(a,b)         scanf("%lld %lld",&a,&b)
+#define     SSS(a,b,c)      scanf("%lld %lld %lld",&a,&b,&c)
+#define     ss              ' '
+#define     pii             pair<ll,ll>
+#define     gcd(a,b)        __gcd(a,b)
+#define     lcm(a,b)        (a*b)/gcd(a,b)
+const double eps = 1e-8;
+
+vll v[1000];
+
+
+
+int main()
+{
+
+    ll n,m;
+    cin>>n>>m;
+    map<pii,ll>edges;
+    for(ll i=0; i<m; i++)
+    {
+        ll a,b,c;
+        cin>>a>>b>>c;
+        v[a].pb(b);
+        v[b].pb(a);
+        edges[ {a,b}]=c;
+        edges[ {b,a}]=c;
+    }
+    map<ll,ll>mstset;
+    ll pr[n+10],dis[n+10];
+    for(ll i=0; i<n; i++)
+    {
+        if(i==0)
+            dis[i]=0;
+        else
+            dis[i]=1e18;
+    }
+
+    ll s=0;
+    ll ans=0;
+    ll node;
+    ll num=0;
+    pr[0]=-1;
+    while(1)
+    {
+
+        ll mn=1e12;
+        for(ll i=0; i<n; i++)
+        {
+            if(mstset[i]==0&&dis[i]<mn)
+            {
+                mn=dis[i];
+                node=i;
+            }
+
+        }
+        ans+=dis[node];
+        //  cout<<dis[node]<<ss;
+        mstset[node]=1;
+        for(ll j:v[node])
+        {
+            if(mstset[j]==0&&dis[j]>edges[ {node,j}])
+                dis[j]=edges[ {node,j}],pr[j]=node;
+        }
+
+        num++;
+        if(num==n)
+            break;
+
+
+
+    }
+
+
+    cout<<ans<<nn;
+
+    for(ll i=1;i<n;i++)
+    {
+        cout<<i<<ss<<pr[i]<<ss<<dis[i]<<nn;
+    }
+
+
+
+
+
+
+}
+
+
+
+/* Final check before submit :
+
+1. array size or integer overflow,like uninitialised 0 index.
+
+2. Think twice,code once.check all possible counter test case.
+
+3. Be careful about corner case! n=1?k=1? something about 0?
+
+4. avoid stupid mistake!complexity(t/m)?precision error?submit same code twice?
+
+5. if got WA than remember that you are missing something common.
+   *** Be confident!!! who knows? may be your one step back to AC ***
+4. minus mod ans=(ans-k+mod)%mod;
+
+*/
+
+
+
+
+
+
+
+O(nlogm)
+
+
+
+
+
+
+
+
+#include<bits/stdc++.h>
+using namespace std;
+typedef      long long int    ll;
+typedef      long double   ld;
+typedef     vector<ll>      vll;
+#define     fi              first
+#define     print(v)        for(ll i:v) cout<<i<<ss
+#define     se              second
+#define     pb              push_back
+#define     nn              "\n"
+#define     all(p)          p.begin(),p.end()
+#define     zz(v)           (ll)v.size()
+#define     S(a)            scanf("%lld",&a)
+#define     SS(a,b)         scanf("%lld %lld",&a,&b)
+#define     SSS(a,b,c)      scanf("%lld %lld %lld",&a,&b,&c)
+#define     ss              ' '
+#define     pii             pair<ll,ll>
+#define     gcd(a,b)        __gcd(a,b)
+#define     lcm(a,b)        (a*b)/gcd(a,b)
+const double eps = 1e-8;
+
+vll v[100010];
+
+
+
+int main()
+{
+    priority_queue<pii>pq;
+
+    ll n,m;
+    cin>>n>>m;
+    map<pii,ll>edges;
+    for(ll i=0; i<m; i++)
+    {
+        ll a,b,c;
+        cin>>a>>b>>c;
+        a--,b--;
+        v[a].pb(b);
+        v[b].pb(a);
+        edges[ {a,b}]=c;
+        edges[ {b,a}]=c;
+    }
+    map<ll,ll>mstset;
+    ll dis[n+10];
+    for(ll i=0; i<n; i++)
+        dis[i]=1e18;
+    dis[0]=0;
+    pq.push({0,0});
+    ll ans=0;
+    // cout<<"dgghilho"<<nn;
+    while(!pq.empty())
+    {
+        pii p=pq.top();
+        pq.pop();
+
+        ll node=p.se;
+        ll cost=p.fi;
+
+        if(mstset[node]==0)
+        {
+            ans+=-cost;
+            mstset[node]=1;
+            for(ll j:v[node])
+            {
+                ll w=edges[ {node,j}];
+                if(!mstset[j]&&dis[j]>w)
+                {
+                    dis[j]=w;
+                    pq.push({-w,j});
+                }
+            }
+        }
+
+
+
+
+
+    }
+
+//    for(ll i=0; i<n; i++)
+//    {
+//        cout<<dis[i]<<ss;
+//    }
+
+    cout<<ans<<nn;
+
+
+
+
+
+
+
+}
+
+
+
+/* Final check before submit :
+
+1. array size or integer overflow,like uninitialised 0 index.
+
+2. Think twice,code once.check all possible counter test case.
+
+3. Be careful about corner case! n=1?k=1? something about 0?
+
+4. avoid stupid mistake!complexity(t/m)?precision error?submit same code twice?
+
+5. if got WA than remember that you are missing something common.
+   *** Be confident!!! who knows? may be your one step back to AC ***
+4. minus mod ans=(ans-k+mod)%mod;
+
+*/
+
+
+
+
+
