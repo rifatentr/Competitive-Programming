@@ -1,0 +1,103 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define		pb              push_back
+#define		PB              pop_back
+#define		nn              "\n"
+#define		all(p)          p.begin(),p.end()
+#define		zz(v)           v.size()
+#define		ss              ' '
+#define 	S(a)            scanf("%lld",&a)
+#define 	SS(a,b)         scanf("%lld %lld",&a,&b)
+#define 	SSS(a,b,c)      scanf("%lld %lld %lld",&a,&b,&c)
+#define		gcd(a,b)        __gcd(a,b)
+#define		lcm(a,b)        (a*b)/gcd(a,b)
+#define		pi              acos(-1.0)
+typedef		long long       ll;
+typedef		vector<ll>      vll;
+
+ll bigmod(ll a,ll b,ll m)
+{
+    if(b==0) return 1;
+    ll x=bigmod(a,b/2,m);
+    x=(x*x)%m;
+    if(b&1)  x=(x*a)%m;
+
+    return x;
+}
+
+
+int main()
+{
+    ll a,b,c;
+    while(cin>>a>>b>>c)
+    {
+
+
+    cout<<bigmod(a,b,c)<<nn;
+    }
+
+
+
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+// another bersion 
+
+
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+int main ()
+{
+    long Flag, Mod4, Mod100, Mod400, Mod15, Mod55, I, Len, leap;
+    char A[1000000];
+    int print = 0;
+
+    while (cin >> A){
+
+        if ( print != 0 )
+            printf("\n");
+        print = 1;
+
+        leap = Flag = Mod4 = Mod100 = Mod400 = Mod15 = Mod55 = 0;
+
+        Len = strlen (A);
+
+        for (I=0; I< Len; I++) {
+
+            Mod4 = ((Mod4 * 10) + (A[I]-'0')) % 4;
+            Mod100 = ((Mod100 * 10) + (A[I]-'0')) % 100;
+            Mod400 = ((Mod400 * 10) + (A[I]-'0')) % 400;
+            Mod15 = ((Mod15 * 10) + (A[I]-'0')) % 15;
+            Mod55 = ((Mod55 * 10) + (A[I]-'0')) % 55;
+        }
+
+        if ((Mod4==0 && Mod100!=0) || Mod400==0){
+            printf("This is leap year.\n");
+            leap = 1;
+            Flag = 1;
+        }
+
+        if (Mod15==0){
+            printf("This is huluculu festival year.\n");
+            Flag = 1;
+        }
+
+        if (leap==1 && Mod55==0)
+            printf("This is bulukulu festival year.\n");
+
+        if (Flag==0)
+            printf("This is an ordinary year.\n");
+    }
+    return 0;
+}
