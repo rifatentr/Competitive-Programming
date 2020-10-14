@@ -1,0 +1,156 @@
+#include<bits/stdc++.h>
+using namespace std;
+typedef		long long       ll;
+typedef		vector<ll>      vll;
+#define		pb              push_back
+#define         O_O             ios_base::sync_with_stdio(false); cin.tie(NULL)
+string intostr(int x)
+{
+    stringstream ss;
+    ss << x;
+    string str = ss.str();
+    return str;
+}
+
+char Uplowch(char ch)
+{
+    if(ch >= 'A' &&  ch <= 'Z')
+        ch += 32;
+    return ch;
+}
+char Lowupch(char ch)
+{
+    if(ch >= 'a' &&  ch <= 'z')
+        ch -= 32;
+    return ch;
+}
+bool Isalpha(char ch)
+{
+    if((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z'))
+        return true;
+    return false;
+}
+int Strtoint(string str)
+{
+    stringstream ss(str);
+    int x = 0;
+    ss >> x ;
+    return x ;
+}
+string Intostr(int x)
+{
+    stringstream ss;
+    ss << x;
+    string str = ss.str();
+    return str;
+}
+
+#define		PB              pop_back
+#define		nn              "\n"
+#define		all(p)          p.begin(),p.end()
+#define		zz(v)           (ll)v.size()
+#define		ss              ' '
+#define 	S(a)            scanf("%lld",&a)
+#define 	SS(a,b)         scanf("%lld %lld",&a,&b)
+#define 	SSS(a,b,c)      scanf("%lld %lld %lld",&a,&b,&c)
+#define		gcd(a,b)        __gcd(a,b)
+#define		lcm(a,b)        (a*b)/gcd(a,b)
+#define		pi              acos(-1.0)
+
+//int dx[] = {0 , 0 , -1 , 1 , -1 , -1 , 1 , 1 , 0} ;
+//int dy[] = {1 ,-1 , 0 , 0 , -1 , 1 , -1 , 1 , 0} ;
+
+int dx[] = {0, 0, -1, 1} ;    // right , left , forward , backward
+int dy[] = {1, -1, 0, 0} ;
+
+//bool check(int x , int y) {
+//    if(x <= n && y <= m && x >= 1 && y >= 1)
+//        return 1 ;
+//    return 0 ;
+//}
+ll const sz =1000;
+
+vll v[sz];
+vll cost[sz];
+ll inf=2e10;
+ll dis[sz];
+
+struct data
+{
+    ll city,dist;
+    bool operator<(const data & p) const
+    {
+        return dist>p.dist;
+    }
+};
+
+ll dijkstra(ll st,ll ed)
+{
+    data u,uv;
+    priority_queue<data>pq;
+    u.city=st;
+    u.dist=0;
+    pq.push(u);
+    dis[st]=0;
+
+    while(!pq.empty())
+    {
+        u=pq.top();
+        pq.pop();
+        ll len=(ll)u.city;
+        for(ll i=0;i<zz(v[len]);i++)
+        {
+            uv.city=v[u.city][i];
+            uv.dist=cost[u.city][i]+dis[u.city];
+
+            if(dis[uv.city]>uv.dist)
+            {
+                dis[uv.city]=uv.dist;
+                pq.push(uv);
+            }
+        }
+
+
+
+
+    }
+
+    return dis[ed];
+}
+
+
+int main()
+{
+    //freopen("in.txt","r",stdin);
+
+    ll t,n,e,st,ed,a,b,c;
+    cin>>t;
+    while(t--)
+    {
+        for(ll i=0; i<sz; i++)
+        {
+            dis[i]=inf;
+            v[i].clear();
+            cost[i].clear();
+        }
+
+        cin>>n>>e;
+        for(ll i=0; i<e; i++)
+        {
+            cin>>a>>b>>c;
+            v[a].pb(b);
+            v[b].pb(a);
+            cost[a].pb(c);
+            cost[b].pb(c);
+        }
+        cin>>st>>ed;
+        ll sd;
+        sd=dijkstra(st,ed);
+
+        cout<<sd<<nn;
+
+
+
+    }
+
+}
