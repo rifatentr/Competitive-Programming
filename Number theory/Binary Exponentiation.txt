@@ -1,0 +1,18 @@
+ll mod=1e9+7;
+
+ll binex(ll a,ll b)
+{
+    if(b==0)
+        return 1;
+
+    ll res=binex(a,b/2);
+    res%=mod;
+    if(b&1)
+    {
+        return ((res*res)%mod*a)%mod;
+    }
+    else
+    {
+        return (res*res)%mod;
+    }
+}
