@@ -98,3 +98,35 @@ int main()
 */
 
 
+
+
+
+
+
+
+
+
+
+// prime factorize O(sqrt(n))
+
+vll ff(ll n)
+{
+    ll z=n;
+    vll v;
+    for(ll i=2; i*i<=n; i++)
+    {
+        if(n%i)
+            continue;
+        while(z%i==0)
+            z/=i;
+        v.pb(i);
+    }
+    if(z>1)
+        v.pb(z);
+
+
+    return v;
+
+}
+
+
