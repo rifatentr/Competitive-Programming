@@ -1,0 +1,74 @@
+#include<bits/stdc++.h>
+using namespace std;
+typedef long long int ll;
+typedef long double ld;
+typedef vector<ll> vll;
+#define fi first
+#define print(v) for(ll i:v) cout<<i<<ss
+#define se second
+#define pb push_back
+#define nn "\n"
+#define all(p) p.begin(),p.end()
+#define zz(v) (ll)v.size()
+#define S(a) scanf("%lld",&a)
+#define SS(a,b) scanf("%lld %lld",&a,&b)
+#define SSS(a,b,c) scanf("%lld %lld %lld",&a,&b,&c)
+#define ss ' '
+#define pii pair<ll,ll>
+#define gcd(a,b) __gcd(a,b)
+#define lcm(a,b) (a*b)/gcd(a,b)
+const double eps = 1e-8;
+const ll N=1010;
+ll n,m;
+ll dis[N][N];
+void Floyd_Warshall()
+{
+    for(ll k=1; k<=n; k++)
+    {
+        for(ll i=1; i<=n; i++)
+        {
+            for(ll j=1; j<=n; j++)
+            {
+                if(i==j)
+                    dis[i][j]=0;
+                dis[i][j]=min(dis[i][j],dis[i][k]+dis[k][j]);
+            }
+        }
+    }
+}
+int main()
+{
+    cin>>n>>m;
+    for(ll i=1; i<=n; i++)
+    {
+        for(ll j=1; j<=n; j++)
+        {
+            dis[i][j]=1e18;
+        }
+    }
+    for(ll i=0; i<m; i++)
+    {
+        ll a,b,w;
+        cin>>a>>b>>w;
+        dis[a][b]=w;
+        dis[b][a]=w;
+    }
+    Floyd_Warshall();
+    for(ll i=1; i<=n; i++)
+    {
+        cout<<"From "<<i<<" :";
+        for(ll j=1; j<=n; j++)
+        {
+            cout<<dis[i][j]<<ss;
+        }
+        cout<<endl;
+    }
+}
+/*
+test case :
+4 4
+1 2 2
+2 4 1
+1 3 5
+3 4 1
+*/
