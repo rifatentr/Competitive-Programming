@@ -48,11 +48,11 @@ double go(ll i,ll m)
 
     if(vis[i][m])
         return dp[i][m];
-        
+
     vis[i][m]=1;
 
     double res = go(i+1,m);
-    
+
     if(m-money[i]>=0)
     {
         res = max(res,(1.0-caught[i])*go(i+1,m-money[i]));
@@ -84,8 +84,8 @@ int main()
         for(ll i=1; i<=tot; i++)
         {
             // call dp for is it possible get money i with maximum
-            // possible not caught probability 
-            if(abs((1-p)-go(1,i)) < eps)
+            // possible not caught probability
+            if(1.0-go(1,i)<p+eps)
                 ans=max(ans,i);
         }
 
