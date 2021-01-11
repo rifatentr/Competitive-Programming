@@ -19,11 +19,19 @@ typedef		vector<ll>      vll;
 #define		lcm(a,b)        (a*b)/gcd(a,b)
 const double eps = 1e-8;
 
+const ll maxn=500;
+const ll inf=0;
 
-ll ar[]= {4,-9,3,7,1,0,2};
-ll n=7;
+ll ch(ll x,ll y)
+{
+    // if the tree is min tree than inf must be inf=1e18
+    // else inf = 0;
+    return x+y;
+}
 
-pii tree[50];
+ll ar[maxn];
+ll n;
+pii tree[4*maxn];
 
 ll make_tree(ll node,ll l,ll r)
 {
@@ -32,7 +40,7 @@ ll make_tree(ll node,ll l,ll r)
         return tree[node].fi=ar[l];
     }
 
-    tree[node].fi=make_tree(node*2,l,(l+r)/2)+make_tree(node*2+1,(l+r)/2+1,r);
+    tree[node].fi=ch(make_tree(node*2,l,(l+r)/2),make_tree(node*2+1,(l+r)/2+1,r));
 
 }
 
@@ -59,7 +67,7 @@ void update(ll a,ll b,ll l,ll r,ll node,ll value)
     update(a,b,l,m,node*2,value);
     update(a,b,m+1,r,node*2+1,value);
 
-    tree[node].fi=tree[node*2].fi+tree[node*2+1].fi+(r-l+1)*tree[node].se;
+    tree[node].fi=ch(tree[node*2].fi,tree[node*2+1].fi)+(r-l+1)*tree[node].se;
 
 
 }
@@ -68,7 +76,7 @@ ll query(ll a,ll b,ll l,ll r,ll node,ll carry)
 {
     // out of the range
     if(a>r||b<l)
-        return 0;
+        return inf;
 
     if(l>=a&&r<=b)
     {
@@ -80,7 +88,7 @@ ll query(ll a,ll b,ll l,ll r,ll node,ll carry)
     // check for partial
 
     ll m=(l+r)/2;
-    return query(a,b,l,m,node*2,carry+tree[node].se)+query(a,b,m+1,r,node*2+1,carry+tree[node].se);
+    return ch(query(a,b,l,m,node*2,carry+tree[node].se),query(a,b,m+1,r,node*2+1,carry+tree[node].se));
 
 }
 
@@ -94,41 +102,11 @@ int main()
 {
 
 
-    make_tree(1,0,n-1);
-//
-//    for(ll i=1;i<20;i++)
-//    {
-//        cout<<tree[i].fi<<ss<<tree[i].se<<nn;
-//    }
-
-    while(1)
-    {
+    // make_tree(1,0,n-1);
+    //query(l,r,0,n-1,1,0)<<nn;
+    // update(l,r,0,n-1,1,m);
 
 
-        cout<< "1 for query : "<<nn;
-        cout<< "2 for update : "<<nn;
-        ll num;
-        cin>>num;
-        if(num==1)
-        {
-            ll a,b;
-            cin>>a>>b;
-            a--,b--;
-            cout<<query(a,b,0,n-1,1,0)<<nn;
-        }
-        else
-        {
-            ll l, r,m;
-
-            cin>>l>>r>>m;
-            l--,r--;
-            //  cout<<1;
-            update(l,r,0,n-1,1,m);
-
-
-        }
-
-    }
 
 
 
