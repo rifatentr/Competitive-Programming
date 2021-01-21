@@ -1,0 +1,182 @@
+//link : https://www.spoj.com/problems/GSS3/
+// tag: segment tree 
+
+
+#include<bits/stdc++.h>
+using namespace std;
+typedef       long long int   ll;
+typedef      long double   ld;
+typedef     vector<ll>      vll;
+#define     fi              first
+#define     print(v)        for(ll i:v) cout<<i<<ss
+#define     se              second
+#define     pb              push_back
+#define     nn              "\n"
+#define     all(p)          p.begin(),p.end()
+#define     zz(v)           (ll)v.size()
+#define     S(a)            scanf("%lld",&a)
+#define     SS(a,b)         scanf("%lld %lld",&a,&b)
+#define     SSS(a,b,c)      scanf("%lld %lld %lld",&a,&b,&c)
+#define     ss              ' '
+#define     pii             pair<ll,ll>
+#define     gcd(a,b)        __gcd(a,b)
+#define     lcm(a,b)        (a*b)/gcd(a,b)
+const double eps = 1e-7;
+const ll maxn=50009;
+const ll inf=-1e15;
+ll ar[maxn];
+struct T
+{
+    ll sum;
+    ll pre;
+    ll suf;
+    ll mx;
+
+    ll sum1;
+    ll pre1;
+    ll suf1;
+    ll mx1;
+
+};
+
+T tree[maxn*4];
+ll n,m;
+
+void build(ll node,ll l,ll r)
+{
+    if(l==r)
+    {
+        tree[node].mx=ar[l];
+        tree[node].pre=ar[l];
+        tree[node].suf=ar[l];
+        tree[node].sum=ar[l];
+        return ;
+    }
+    ll mid=(l+r)/2;
+    ll left=node*2;
+    ll right=node*2+1;
+    build(left,l,mid);
+    build(right,mid+1,r);
+
+    tree[node].mx=max({tree[left].suf+tree[right].pre,tree[left].mx,tree[right].mx});
+    tree[node].pre=max(tree[left].pre,tree[left].sum+tree[right].pre);
+    tree[node].suf=max(tree[right].suf,tree[right].sum+tree[left].suf);
+    tree[node].sum=tree[left].sum+tree[right].sum;
+}
+
+ll query(ll node,ll l,ll r,ll st,ll ed)
+{
+    if(st>r||ed<l)
+    {
+        tree[node].mx1=inf;
+        tree[node].pre1=inf;
+        tree[node].suf1=inf;
+        tree[node].sum1=inf;
+        return -1e15;
+    }
+
+    if(st<=l&&ed>=r)
+    {
+        tree[node].mx1= tree[node].mx;
+        tree[node].pre1=tree[node].pre;
+        tree[node].suf1=tree[node].suf;
+        tree[node].sum1=tree[node].sum;
+        return tree[node].mx;
+    }
+
+    ll mid=(l+r)/2;
+    ll left=node*2;
+    ll right=node*2+1;
+    ll x=query(node*2,l,mid,st,ed);
+    ll y=query(node*2+1,mid+1,r,st,ed);
+
+
+    if(tree[left].mx1==inf)
+    {
+        tree[node].mx1=tree[right].mx1;
+        tree[node].pre1=tree[right].pre1;
+        tree[node].suf1=tree[right].suf1;
+        tree[node].sum1=tree[right].sum1;
+    }
+    else if(tree[right].mx1==inf)
+    {
+        tree[node].mx1=tree[left].mx1;
+        tree[node].pre1=tree[left].pre1;
+        tree[node].suf1=tree[left].suf1;
+        tree[node].sum1=tree[left].sum1;
+    }
+    else
+    {
+        tree[node].mx1=max({tree[left].suf1+tree[right].pre1,tree[left].mx1,tree[right].mx1});
+        tree[node].pre1=max(tree[left].pre1,tree[left].sum1+tree[right].pre1);
+        tree[node].suf1=max(tree[right].suf1,tree[right].sum1+tree[left].suf1);
+        tree[node].sum1=tree[left].sum1+tree[right].sum1;
+    }
+
+
+
+    return tree[node].mx1;
+}
+
+void  up(ll node,ll l,ll r,ll x,ll y)
+{
+    if(x>r||x<l) return;
+
+    if(l==r&&l==x)
+    {
+        // cout<<"aise toh mia ki kon"<<nn;
+        tree[node].mx=y;
+        tree[node].pre=y;
+        tree[node].suf=y;
+        tree[node].sum=y;
+        return ;
+    }
+
+    ll mid=(l+r)/2;
+    ll left=node*2;
+    ll right=node*2+1;
+    up(left,l,mid,x,y);
+    up(right,mid+1,r,x,y);
+
+
+    tree[node].mx=max({tree[left].suf+tree[right].pre,tree[left].mx,tree[right].mx});
+    tree[node].pre=max(tree[left].pre,tree[left].sum+tree[right].pre);
+    tree[node].suf=max(tree[right].suf,tree[right].sum+tree[left].suf);
+    tree[node].sum=tree[left].sum+tree[right].sum;
+
+}
+
+int main()
+{
+
+    cin>>n;
+    for(ll i=1; i<=n; i++)
+    {
+        cin>>ar[i];
+    }
+
+    build(1,1,n);
+
+    ll m;
+    cin>>m;
+    while(m--)
+    {
+        ll t,x,y;
+        cin>>t;
+        cin>>x>>y;
+        if(t==0)
+        {
+            up(1,1,n,x,y);
+
+        }
+        else
+        {
+            cout<<query(1,1,n,x,y)<<nn;
+
+        }
+
+    }
+
+
+}
+
