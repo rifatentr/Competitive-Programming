@@ -1,0 +1,232 @@
+// link https://lightoj.com/problem/histogram
+
+// tag seg tree
+
+
+
+
+
+
+#include<bits/stdc++.h>
+using namespace std;
+typedef       long long int   ll;
+typedef      long double   ld;
+typedef     vector<ll>      vll;
+#define     fi              first
+#define     print(v)        for(ll i:v) cout<<i<<ss
+#define     se              second
+#define     pb              push_back
+#define     nn              "\n"
+#define     all(p)          p.begin(),p.end()
+#define     zz(v)           (ll)v.size()
+#define     S(a)            scanf("%lld",&a)
+#define     SS(a,b)         scanf("%lld %lld",&a,&b)
+#define     SSS(a,b,c)      scanf("%lld %lld %lld",&a,&b,&c)
+#define     ss              ' '
+#define     pii             pair<ll,ll>
+#define     gcd(a,b)        __gcd(a,b)
+#define     lcm(a,b)        (a*b)/gcd(a,b)
+const double eps = 1e-7;
+const ll maxn = 30009;
+
+ll tree[maxn*4];
+ll ar[maxn];
+ll n;
+void build(ll node,ll l,ll r)
+{
+    if(l==r)
+    {
+        tree[node]=ar[l];
+        return ;
+
+    }
+
+    ll mid=(l+r)/2;
+    ll left=node*2;
+    ll right=node*2+1;
+    build(left,l,mid);
+    build(right,mid+1,r);
+    tree[node]=min(tree[left],tree[right]);
+}
+ll inf=-1e18;
+ll ans=0;
+ll query(ll node,ll l,ll r,ll st,ll ed,ll value)
+{
+    //cout<<l<<ss<<r<<nn;
+
+    if(st>r||l>ed) return 0;
+
+    ll mid=(l+r)/2;
+    ll left=node*2;
+    ll right=node*2+1;
+
+    if(l==r)
+    {
+        if(tree[node]>=value)
+        {
+            ans++;
+            return 0;
+        }
+        else return inf;
+    }
+
+    if(l>=st&&r<=ed)
+    {
+        if(tree[node]>=value)
+        {
+            ans+=r-l+1;
+            //cout<<r-l+1<<nn;
+            return 0;
+        }
+        if(tree[left]>=value)
+        {
+            // cout<<"aise";
+            ans+=mid-l+1;
+            //cout<<ans<<nn;
+            return query(right,mid+1,r,st,ed,value);
+        }
+        else
+        {
+            return query(left,l,mid,st,ed,value);
+        }
+
+    }
+    else
+    {
+        ll x=query(left,l,mid,st,ed,value);
+        if(x>=0)
+        {
+            return query(right,mid+1,r,st,ed,value);
+        }
+        else return inf;
+    }
+
+}
+
+
+
+ll query1(ll node,ll l,ll r,ll st,ll ed,ll value)
+{
+    //cout<<l<<ss<<r<<nn;
+
+    if(st>r||l>ed) return 0;
+
+    ll mid=(l+r)/2;
+    ll left=node*2;
+    ll right=node*2+1;
+
+    if(l==r)
+    {
+        if(tree[node]>=value)
+        {
+            ans++;
+            return 0;
+        }
+        else return inf;
+    }
+
+    if(l>=st&&r<=ed)
+    {
+        if(tree[node]>=value)
+        {
+            ans+=r-l+1;
+            //cout<<r-l+1<<nn;
+            return 0;
+        }
+        if(tree[right]>=value)
+        {
+            // cout<<"aise";
+            ans+=r-(mid+1)+1;
+            //cout<<ans<<nn;
+            return query1(left,l,mid,st,ed,value);
+        }
+        else
+        {
+            return query1(right,mid+1,r,st,ed,value);
+        }
+
+    }
+    else
+    {
+        ll x=query1(right,mid+1,r,st,ed,value);
+        if(x>=0)
+        {
+            return query1(left,l,mid,st,ed,value);
+        }
+        else return inf;
+    }
+
+}
+
+
+
+
+
+
+int main()
+{
+    ll t;
+    ll in=1;
+    cin>>t;
+    while(t--)
+    {
+        cin>>n;
+        for(ll i=0; i<n; i++)
+        {
+            cin>>ar[i];
+        }
+        build(1,0,n-1);
+
+        ll ans1=0;
+        for(ll i=0; i<n; i++)
+        {
+            ans=0;
+            ll x=query(1,0,n-1,i,n-1,ar[i]);
+            x=ans;
+            ans=0;
+            ll y=query1(1,0,n-1,0,i,ar[i]);
+            y=ans;
+            //  cout<<ar[i]<<": "<<x<<ss<<y<<nn;
+            ans1=max(ans1,(x+y-1)*ar[i]);
+        }
+        cout<<"Case "<<in++<<": ";
+        cout<<ans1<<nn;
+    }
+
+
+}
+
+
+
+/* Final check before submit :
+
+1. array size or integer overflow,like uninitialised 0 index.
+
+2. Think twice,code once.check all possible counter test case.
+
+3. Be careful about corner case! n=1?k=1? something about 0?
+
+4. avoid stupid mistake!complexity(t/m)?precision error?submit same code twice?
+
+5. if got WA than remember that you are missing something common.
+   *** Be confident!!! who knows? may be your one step back to AC ***
+4. minus mod ans=(ans-k+mod)%mod;
+
+*/
+
+
+/* IF WA???
+
+1. corner case! n=1?k=1? something about 0?
+
+2. check code(avoid stupid mistake)
+
+3. read the statement again(if there any missing point???)
+
+4. check the idea(check all possible counter test case again!!!)
+
+5. be calm,don't be panic!!!.(***this problem not going to decide your future***)
+
+6. don't waste too much time. move to next problem
+
+*/
