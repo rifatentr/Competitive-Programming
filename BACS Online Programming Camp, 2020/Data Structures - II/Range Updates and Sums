@@ -1,0 +1,264 @@
+// https://cses.fi/problemset/task/1735
+#include<bits/stdc++.h>
+using namespace std;
+typedef       long long int   ll;
+typedef      long double   ld;
+typedef     vector<ll>      vll;
+#define     fi              first
+#define     print(v)        for(ll i:v) cout<<i<<ss
+#define     se              second
+#define     pb              push_back
+#define     nn              "\n"
+#define     all(p)          p.begin(),p.end()
+#define     zz(v)           (ll)v.size()
+#define     S(a)            scanf("%lld",&a)
+#define     SS(a,b)         scanf("%lld %lld",&a,&b)
+#define     SSS(a,b,c)      scanf("%lld %lld %lld",&a,&b,&c)
+#define     ss              ' '
+#define     pii             pair<ll,ll>
+#define     gcd(a,b)        __gcd(a,b)
+#define     lcm(a,b)        (a*b)/gcd(a,b)
+const double eps = 1e-7;
+const ll maxn=200005;
+
+struct T
+{
+    ll sum;
+    ll typ1;
+    ll typ2;
+    ll lazy1,lazy2;
+
+};
+
+T tree[maxn*4];
+ll ar[maxn];
+ll n;
+
+void build(ll node,ll l,ll r)
+{
+    if(l==r)
+    {
+        //cout<<l<<ss<<node<<nn;
+        tree[node].sum=ar[l];
+        return;
+    }
+
+    ll mid=(l+r)/2;
+    ll left=node*2;
+    ll right=node*2+1;
+
+    build(left,l,mid);
+    build(right,mid+1,r);
+    tree[node].sum=tree[left].sum+tree[right].sum;
+
+}
+
+void tp1(ll node,ll value)
+{
+    if(tree[node].lazy2)
+    {
+        tree[node].typ1=0;
+        tree[node].lazy1=0;
+
+        tree[node].typ2=1;
+        tree[node].lazy2+=value;
+    }
+    else
+    {
+        tree[node].typ1=1;
+        tree[node].lazy1+=value;
+    }
+}
+
+void tp2(ll node,ll value)
+{
+    tree[node].typ1=0;
+    tree[node].lazy1=0;
+
+    tree[node].typ2=1;
+    tree[node].lazy2=value;
+}
+
+void push_down(ll node,ll l,ll r)
+{
+    ll mid=(l+r)/2;
+    ll left=node*2;
+    ll right=node*2+1;
+
+    if(tree[node].typ1)
+    {
+
+        ll cur=tree[node].lazy1;
+        tree[node].sum+=(r-l+1)*cur;
+        if(l!=r)
+        {
+            tp1(left,cur);
+            tp1(right,cur);
+        }
+
+
+        tree[node].typ1=0;
+        tree[node].lazy1=0;
+
+    }
+    else if(tree[node].typ2)
+    {
+        ll cur=tree[node].lazy2;
+        tree[node].sum=(r-l+1)*cur;
+        if(l!=r)
+        {
+            tp2(left,cur);
+            tp2(right,cur);
+        }
+        tree[node].typ2=0;
+        tree[node].lazy2=0;
+
+
+    }
+
+}
+
+void update(ll node,ll l,ll r,ll st,ll ed,ll value,ll tp)
+{
+
+    push_down(node,l,r);
+
+    if(l>ed||r<st) return;
+
+    if(l>=st&&r<=ed)
+    {
+        if(tp==1)
+        {
+            tp1(node,value);
+            push_down(node,l,r);
+        }
+        else
+        {
+            tp2(node,value);
+            push_down(node,l,r);
+        }
+
+        return;
+    }
+    ll mid=(l+r)/2;
+    ll left=node*2;
+    ll right=node*2+1;
+
+    update(left,l,mid,st,ed,value,tp);
+    update(right,mid+1,r,st,ed,value,tp);
+
+    tree[node].sum=tree[left].sum+tree[right].sum;
+
+
+
+}
+
+ll query(ll node,ll l,ll r,ll st,ll ed)
+{
+    push_down(node,l,r);
+
+    if(l>ed||r<st) return 0;
+    if(l>=st&&r<=ed)
+    {
+        return tree[node].sum;
+
+    }
+    ll mid=(l+r)/2;
+    ll left=node*2;
+    ll right=node*2+1;
+
+    return query(left,l,mid,st,ed)+query(right,mid+1,r,st,ed);
+
+}
+
+
+int main()
+{
+    /*
+    2 3 1 1 5 3
+    2 5 3 3 5 3
+    1 6
+    1 3 / 4 6
+
+    1 2
+
+    */
+    ll q;
+    scanf("%lld %lld",&n,&q);
+    for(ll i=1; i<=n; i++) scanf("%lld",&ar[i]);
+    build(1,1,n);
+//    for(ll i=1; i<20; i++)
+//    {
+//        // cout<<tree[i].sum<<ss;
+//    }
+//    //cout<<nn;
+    while(q--)
+    {
+        ll t;
+        scanf("%lld",&t);
+        if(t==1)
+        {
+            ll x,y,val;
+            scanf("%lld",&x);
+            scanf("%lld",&y);
+            scanf("%lld",&val);
+            update(1,1,n,x,y,val,t);
+        }
+        else if(t==2)
+        {
+            ll x,y,val;
+            scanf("%lld",&x);
+            scanf("%lld",&y);
+            scanf("%lld",&val);
+            update(1,1,n,x,y,val,t);
+        }
+        else
+        {
+            ll x,y;
+            scanf("%lld",&x);
+            scanf("%lld",&y);
+
+            printf("%lld\n",query(1,1,n,x,y));
+
+        }
+
+//        for(ll i=1; i<=n; i++) cout<<query(1,1,n,i,i)<<ss;
+//        cout<<nn;
+    }
+
+
+}
+
+
+/* Final check before submit :
+
+1. array size or integer overflow,like uninitialised 0 index.
+
+2. Think twice,code once.check all possible counter test case.
+
+3. Be careful about corner case! n=1?k=1? something about 0?
+
+4. avoid stupid mistake!complexity(t/m)?precision error?submit same code twice?
+
+5. if got WA than remember that you are missing something common.
+   *** Be confident!!! who knows? may be your one step back to AC ***
+4. minus mod ans=(ans-k+mod)%mod;
+
+*/
+
+
+/* IF WA???
+
+1. corner case! n=1?k=1? something about 0?
+
+2. check code(avoid stupid mistake)
+
+3. read the statement again(if there any missing point???)
+
+4. check the idea(check all possible counter test case again!!!)
+
+5. be calm,don't be panic!!!.(***this problem not going to decide your future***)
+
+6. don't waste too much time. move to next problem
+
+*/
