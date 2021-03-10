@@ -1,0 +1,18 @@
+
+
+string solve_palindrome(const string& s)
+{
+    string a = s;
+    reverse(a.begin(), a.end());
+    a = s + "#" + a;
+    c = 0;
+    for (ll i = 1; i < (ll)a.size(); i++)
+    {
+        while (c != 0 && a[c] != a[i])
+            c = pref[c - 1];
+        if (a[c] == a[i])
+            c++;
+        pref[i] = c;
+    }
+    return s.substr(0, c);
+}
