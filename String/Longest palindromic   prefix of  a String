@@ -1,12 +1,13 @@
-
-
 string solve_palindrome(const string& s)
 {
+
     string a = s;
     reverse(a.begin(), a.end());
     a = s + "#" + a;
-    c = 0;
-    for (ll i = 1; i < (ll)a.size(); i++)
+    ll n=zz(a);
+    ll pref[n+10]= {0};
+    ll c = 0;
+    for (ll i = 1; i < zz(a); i++)
     {
         while (c != 0 && a[c] != a[i])
             c = pref[c - 1];
