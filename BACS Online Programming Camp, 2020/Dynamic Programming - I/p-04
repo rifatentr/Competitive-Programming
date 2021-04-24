@@ -2,6 +2,7 @@
 
 Given an array with N integers, find a subsequence of this array 
 to maximazie the sum of the Sunsequence.
+#can't take consecutive 
 
 dp[i]=max(dp[i-1],dp[i-2]+a[i])
 or 
