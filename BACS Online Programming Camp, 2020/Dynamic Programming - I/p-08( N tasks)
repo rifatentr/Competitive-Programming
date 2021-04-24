@@ -1,5 +1,5 @@
 /*
-You are given N taks. Eash task has starting time, finishing time amd a profit.
+You are given N tasks. Eash task has starting time, finishing time amd a profit.
 You can do any number of non-overlaping tasks and get the profits associated with 
 them. Your goal is to maximize total profit.
 
