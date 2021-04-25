@@ -1,0 +1,241 @@
+/*
+Given an arithmetic expression which consists of only digit '+' and '*'
+you can insert Brackets to maximize expression
+
+5*2+5*2+2+5
+
+*/
+
+
+#include<bits/stdc++.h>
+using namespace std;
+typedef        long long int   ll;
+typedef      long double   ld;
+typedef     vector<ll>      vll;
+#define     fi              first
+#define     se              second
+#define     pb              push_back
+#define     nn              "\n"
+#define     all(p)          p.begin(),p.end()
+#define     zz(v)           (ll)v.size()
+#define     S(a)            scanf("%lld",&a)
+#define     SS(a,b)         scanf("%lld %lld",&a,&b)
+#define     SSS(a,b,c)      scanf("%lld %lld %lld",&a,&b,&c)
+#define     ss              ' '
+#define     pii             pair<ll,ll>
+#define     gcd(a,b)        __gcd(a,b)
+#define     lcm(a,b)        (a*b)/gcd(a,b)
+
+ll dp[105][105];
+string s;
+ll n;
+ll go(ll i,ll j)
+{
+    //cout<<i<<ss<<j<<nn;
+    if(i==j)
+        return s[i]-'0';
+    if(dp[i][j]!=-1)
+        return dp[i][j];
+    ll sum = 0;
+
+    for(ll k = i+1; k<j; k++)
+    {
+        if(s[k]>='0'&&s[k]<='9')
+            continue;
+        ll way1 = go(i,k-1);
+        ll way2 = go(k+1,j);
+
+        ll val;
+        if(s[k]=='+')
+            val = way1+way2;
+        else
+            val = way1*way2;
+
+        sum=max(sum,val);
+    }
+
+    return dp[i][j]=sum;
+
+}
+
+int main()
+{
+    memset(dp,-1,sizeof(dp));
+    /*
+    5*2+5*2+2+5
+    */
+    cin>>s;
+    ll n=zz(s);
+    cout<<go(0,n-1)<<nn;
+
+}
+
+
+/* Final check before submit :
+
+1. array size or integer overflow,like uninitialised 0 index.
+
+2. Think twice,code once.check all possible counter test case.
+
+3. Be careful about corner case! n=1?k=1? something about 0?
+
+4. avoid stupid mistake!complexity(t/m)?precision error?submit same code twice?
+
+5. if got WA than remember that you are missing something common.
+   *** Be confident!!! who knows? may be your one step back to AC ***
+4. minus mod ans=(ans-k+mod)%mod;
+
+*/
+
+
+/* IF WA???
+
+1. corner case! n=1?k=1? something about 0?
+
+2. check code(avoid stupid mistake)
+
+3. read the statement again(if there any missing point???)
+
+4. check the idea(check all possible counter test case again!!!)
+
+5. be calm,don't be panic!!!.(***this problem not going to decide your future***)
+
+6. don't waste too much time. move to next problem
+
+*/
+
+
+/*
+Given an arithmetic expression which consists of any number of digit digit '+' and '*'
+you can insert Brackets to maximize expression
+
+5*2+5*2+2+5
+
+*/
+
+
+#include<bits/stdc++.h>
+using namespace std;
+typedef        long long int   ll;
+typedef      long double   ld;
+typedef     vector<ll>      vll;
+#define     fi              first
+#define     se              second
+#define     pb              push_back
+#define     nn              "\n"
+#define     all(p)          p.begin(),p.end()
+#define     zz(v)           (ll)v.size()
+#define     S(a)            scanf("%lld",&a)
+#define     SS(a,b)         scanf("%lld %lld",&a,&b)
+#define     SSS(a,b,c)      scanf("%lld %lld %lld",&a,&b,&c)
+#define     ss              ' '
+#define     pii             pair<ll,ll>
+#define     gcd(a,b)        __gcd(a,b)
+#define     lcm(a,b)        (a*b)/gcd(a,b)
+
+ll dp[105][105];
+string s;
+
+ll calc(ll l,ll r)
+{
+    ll f=1;
+    for(ll i=l; i<=r; i++)
+    {
+        if(s[i]=='+'||s[i]=='*')
+            f=0;
+    }
+    return f;
+}
+
+ll give_me_number(ll l,ll r)
+{
+    ll sum=0;
+    for(ll i=l; i<=r; i++)
+    {
+        sum=sum*10+s[i]-'0';
+    }
+    return sum;
+}
+
+ll n;
+ll go(ll i,ll j)
+{
+    //cout<<i<<ss<<j<<nn;
+
+    if(calc(i,j))
+    {
+        return give_me_number(i,j);
+    }
+
+    if(dp[i][j]!=-1)
+        return dp[i][j];
+    ll sum = 0;
+
+    for(ll k = i+1; k<j; k++)
+    {
+        if(s[k]>='0'&&s[k]<='9')
+            continue;
+        ll way1 = go(i,k-1);
+        ll way2 = go(k+1,j);
+
+        ll val;
+        if(s[k]=='+')
+            val = way1+way2;
+        else
+            val = way1*way2;
+
+        sum=max(sum,val);
+    }
+
+    return dp[i][j]=sum;
+
+}
+
+int main()
+{
+    memset(dp,-1,sizeof(dp));
+    /*
+    10*2+5
+    */
+    cin>>s;
+    ll n=zz(s);
+    cout<<go(0,n-1)<<nn;
+
+}
+
+
+/* Final check before submit :
+
+1. array size or integer overflow,like uninitialised 0 index.
+
+2. Think twice,code once.check all possible counter test case.
+
+3. Be careful about corner case! n=1?k=1? something about 0?
+
+4. avoid stupid mistake!complexity(t/m)?precision error?submit same code twice?
+
+5. if got WA than remember that you are missing something common.
+   *** Be confident!!! who knows? may be your one step back to AC ***
+4. minus mod ans=(ans-k+mod)%mod;
+
+*/
+
+
+/* IF WA???
+
+1. corner case! n=1?k=1? something about 0?
+
+2. check code(avoid stupid mistake)
+
+3. read the statement again(if there any missing point???)
+
+4. check the idea(check all possible counter test case again!!!)
+
+5. be calm,don't be panic!!!.(***this problem not going to decide your future***)
+
+6. don't waste too much time. move to next problem
+
+*/
+
+
+
