@@ -1,0 +1,160 @@
+/*
+
+Given A and B if we write from A to B, How many zeros wil we write down ?
+
+1<=A<=B<=1e9
+
+*/
+
+
+
+#include<bits/stdc++.h>
+using namespace std;
+typedef        long long int   ll;
+typedef      long double   ld;
+typedef     vector<ll>      vll;
+#define     fi              first
+#define     se              second
+#define     pb              push_back
+#define     nn              "\n"
+#define     all(p)          p.begin(),p.end()
+#define     zz(v)           (ll)v.size()
+#define     S(a)            scanf("%lld",&a)
+#define     SS(a,b)         scanf("%lld %lld",&a,&b)
+#define     SSS(a,b,c)      scanf("%lld %lld %lld",&a,&b,&c)
+#define     ss              ' '
+#define     pii             pair<ll,ll>
+#define     gcd(a,b)        __gcd(a,b)
+#define     lcm(a,b)        (a*b)/gcd(a,b)
+
+ll digit[10];
+ll a,b,x;
+ll dp[11][2][2];
+ll dp2[11][2];
+
+ll go2(ll i,ll is_small)
+{
+    if(i==10)
+        return 1;
+
+    if(dp2[i][is_small]!=-1)
+        return dp2[i][is_small];
+
+    ll r=digit[i];
+    if(is_small)
+        r=9;
+    ll sum=0;
+    for(ll j=0; j<=r; j++)
+    {
+        sum+=go2(i+1,is_small || (j<r));
+    }
+
+    return dp2[i][is_small]=sum;
+
+}
+
+ll go(ll i,ll is_small,ll on)
+{
+    if(i==10)
+    {
+        return 0;
+    }
+
+    if(dp[i][is_small][on]!=-1)
+        return dp[i][is_small][on];
+
+    ll r = digit[i];
+    if(is_small)
+        r=9;
+    ll sum=0;
+    for(ll j=0; j<=r; j++)
+    {
+        ll cnt = go(i+1,is_small | (j<r), on|(j!=0));
+
+        if(j==0&&on)
+            cnt+=go2(i+1,is_small | (j<r));
+
+        sum+=cnt;
+    }
+
+    return dp[i][is_small][on]=sum;
+
+}
+
+
+ll calc(ll num)
+{
+    for(ll i=0; i<10; i++)
+    {
+        digit[i]=0;
+    }
+    ll last = 9;
+    while(num)
+    {
+        digit[last--]=num%10;
+        num/=10;
+    }
+    memset(dp,-1,sizeof(dp));
+    memset(dp2,-1,sizeof(dp2));
+
+    return go(0,0,0);
+
+
+}
+
+int main()
+{
+
+    /*
+
+    */
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    ll t;
+    cin>>t;
+    while(t--)
+    {
+
+        cin>>a>>b ;
+        cout<<calc(b)-calc(a-1)<<nn;
+
+    }
+
+
+
+
+}
+
+
+/* Final check before submit :
+
+1. array size or integer overflow,like uninitialised 0 index.
+
+2. Think twice,code once.check all possible counter test case.
+
+3. Be careful about corner case! n=1?k=1? something about 0?
+
+4. avoid stupid mistake!complexity(t/m)?precision error?submit same code twice?
+
+5. if got WA than remember that you are missing something common.
+   *** Be confident!!! who knows? may be your one step back to AC ***
+4. minus mod ans=(ans-k+mod)%mod;
+
+*/
+
+
+/* IF WA???
+
+1. corner case! n=1?k=1? something about 0?
+
+2. check code(avoid stupid mistake)
+
+3. read the statement again(if there any missing point???)
+
+4. check the idea(check all possible counter test case again!!!)
+
+5. be calm,don't be panic!!!.(***this problem not going to decide your future***)
+
+6. don't waste too much time. move to next problem
+
+*/
