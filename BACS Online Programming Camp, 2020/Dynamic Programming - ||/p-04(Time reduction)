@@ -1,0 +1,7 @@
+
+/*
+Given N, calculate how many permutation of length N exist where for each 
+1.a[i]>a[i+1] and a[i]>a[i-1]
+2.a[i]<a[i+1] and a[i]<a[i-1]
+n<10000
+*/
