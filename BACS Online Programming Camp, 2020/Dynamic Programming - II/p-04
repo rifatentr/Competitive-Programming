@@ -1,6 +1,0 @@
-/*
-Given an array of N length. You can't take more than consecutive K values.
-Calculate the maximum score you can make (n,k<=1e5)
-*/
-
-
