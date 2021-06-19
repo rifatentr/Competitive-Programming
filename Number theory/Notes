@@ -1,0 +1,4 @@
+1. if n is odd all the divisor of n will be odd.
+2. if d divide n than d divide also (n-d).
+3. if n is even and is not a power of 2, it means that n has an odd divisor.
+4. 
