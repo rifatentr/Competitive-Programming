@@ -1,0 +1,19 @@
+const ll N=1e8;
+
+vll primes;
+void optimize_seive()
+{
+    vector<bool> vis(N,0);
+    primes.emplace_back(2);
+    for(ll i=3 ; i< N ; i+=2)
+    {
+        if(vis[i]==0)
+        {
+            primes.emplace_back(i);
+            for(ll j = i*i ; j < N ; j+=2*i)
+            {
+                vis[j]=1;
+            }
+        }
+    }
+}
