@@ -1,0 +1,182 @@
+
+/*
+
+problem link : https://codeforces.com/problemset/problem/13/E
+
+*/
+
+#include<bits/stdc++.h>
+using namespace std;
+typedef         long long int   ll;
+typedef      long double   ld;
+typedef     vector<ll>      vll;
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using    namespace __gnu_pbds;
+typedef tree<int, null_type, less<ll>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
+#define     fi              first
+#define     se              second
+#define     pb              push_back
+#define     nn              "\n"
+#define     all(p)          p.begin(),p.end()
+#define     zz(v)           (ll)v.size()
+#define     S(a)            scanf("%lld",&a)
+#define     SS(a,b)         scanf("%lld %lld",&a,&b)
+#define     SSS(a,b,c)      scanf("%lld %lld %lld",&a,&b,&c)
+#define     ss              ' '
+#define     pii             pair<ll,ll>
+#define     gcd(a,b)        __gcd(a,b)
+#define     lcm(a,b)        (a*b)/gcd(a,b)
+
+const ll N = 1e5 + 9;
+
+ll n,q;
+
+ll ar[N];
+ll nxt[N];
+ll cost[N];
+
+ll typ[N];
+
+ll k;
+
+ll inf=11;
+
+void update(ll i)
+{
+
+    ll d=ar[i]+i;
+
+    if(d>n || i/k != d/k)
+    {
+        nxt[i]=i;
+        cost[i]=1;
+    }
+    else
+    {
+        nxt[i]=nxt[d];
+        cost[i]=cost[d]+1;
+    }
+
+
+}
+
+int main()
+{
+
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+
+
+    cin>>n>>q;
+
+    cost[n+1]=0;
+    nxt[n+1]=0;
+
+    for(ll i=1; i<=n; i++)
+    {
+        cin>>ar[i];
+    }
+
+    k = sqrt(n) ;
+
+    if(k*k!=n) k++;
+
+    for(ll i = n; i>=1; i--)
+    {
+        update(i);
+    }
+
+    for(ll i=1; i<=n; i++)
+    {
+        ll b=i/k;
+
+        //   cout<<b<<ss<<nxt[i]<<ss<<cost[i]<<nn;
+    }
+    ll ln=1;
+    ll x=1;
+    while(x<=q)
+    {
+        ll t;
+        cin>>t;
+
+        ll ans=0;
+
+        if(t==1)
+        {
+            ll a;
+            cin>>a;
+
+            ll sum = 0;
+            ll cur = 0;
+
+            while(a<n+1)
+            {
+
+                sum+=cost[a];
+
+                cur = nxt[a];
+                a=cur+ar[cur];
+            }
+
+
+            cout<<cur<<ss<<sum<<nn;
+
+
+        }
+        else
+        {
+            ll a,b;
+            cin>>a>>b;
+
+            ar[a]=b;
+            ll b_a = a/k;
+
+            for(ll i=a; i>=max(1LL,b_a*k); i--) update(i);
+
+
+
+        }
+
+        x++;
+    }
+
+
+
+
+
+}
+
+
+/* Final check before submit :
+
+1. array size or integer overflow,like uninitialised 0 index.
+
+2. Think twice,code once.check all possible counter test case.
+
+3. Be careful about corner case! n=1?k=1? something about 0?
+
+4. avoid stupid mistake!complexity(t/m)?precision error?submit same code twice?
+
+5. if got WA than remember that you are missing something common.
+   *** Be confident!!! who knows? may be your one step back to AC ***
+4. minus mod ans=(ans-k+mod)%mod;
+
+*/
+
+
+/* IF WA???
+
+1. corner case! n=1?k=1? something about 0?
+
+2. check code(avoid stupid mistake)
+
+3. read the statement again(if there any missing point???)
+
+4. check the idea(check all possible counter test case again!!!)
+
+5. be calm,don't be panic!!!.(***this problem not going to decide your future***)
+
+6. don't waste too much time. move to next problem
+
+*/
