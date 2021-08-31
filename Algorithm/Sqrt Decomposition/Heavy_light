@@ -1,0 +1,215 @@
+/*
+
+problme link  : https://codeforces.com/contest/348/problem/C
+
+*/
+
+
+/*   Bismillahir Rahmanir Rahim   */
+
+#include<bits/stdc++.h>
+using namespace std;
+typedef         long long int   ll;
+typedef      long double   ld;
+typedef     vector<ll>      vll;
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using    namespace __gnu_pbds;
+typedef tree<int, null_type, less<ll>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
+#define     fi              first
+#define     se              second
+#define     pb              push_back
+#define     nn              "\n"
+#define     all(p)          p.begin(),p.end()
+#define     zz(v)           (ll)v.size()
+#define     S(a)            scanf("%lld",&a)
+#define     SS(a,b)         scanf("%lld %lld",&a,&b)
+#define     SSS(a,b,c)      scanf("%lld %lld %lld",&a,&b,&c)
+#define     ss              ' '
+#define     pii            pair<char,ll>
+#define     gcd(a,b)        __gcd(a,b)
+#define     lcm(a,b)        (a*b)/gcd(a,b)
+
+#define MAX 100509
+#define sq 320
+
+ll ar[MAX+5];
+
+vll sets[MAX+5];
+vll indices[MAX+5];
+
+ll heavy[MAX];
+ll sum[sq+5];
+ll to_add[sq+5];
+
+int intersection[sq+5][MAX+5];
+
+
+int main()
+{
+
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+
+    ll n,m,q;
+
+    cin>>n>>m>>q;
+
+    ll color=1;
+
+    for(ll i=1; i<=n; i++)
+    {
+        cin>>ar[i];
+    }
+
+    for(ll i=1; i<=m; i++)
+    {
+        ll sz;
+        cin>>sz;
+
+        ll set_sum=0;
+
+        for(ll j=1; j<=sz; j++)
+        {
+            ll id;
+            cin>>id;
+
+            sets[i].pb(id);
+            indices[id].pb(i);
+            set_sum+=1LL*ar[id];
+
+        }
+
+        if(sz>=sq)
+        {
+            heavy[i]=color++;
+            sum[color-1]=set_sum;
+        }
+
+    }
+
+    for(ll i=1; i<=m; i++)
+    {
+        if(heavy[i]>0)
+        {
+            for(ll id : sets[i])
+            {
+                for(ll st : indices[id])
+                {
+                    intersection[heavy[i]][st]++;
+                }
+            }
+        }
+    }
+
+    while(q--)
+    {
+        char ch;
+        cin>>ch;
+
+        if(ch=='?')
+        {
+            ll query_set;
+            cin>>query_set;
+
+            ll val=0;
+
+            if(heavy[query_set]==0)
+            {
+                for(ll ind : sets[query_set])
+                {
+                    val+=ar[ind];
+                }
+            }
+            else
+            {
+                val+=sum[heavy[query_set]];
+            }
+
+            for(ll i=1; i<color; i++)
+            {
+                val+= 1LL * to_add[i] * (ll)intersection[i][query_set];
+            }
+
+            cout<<val<<nn;
+        }
+        else
+        {
+
+            ll query_set,x;
+            cin>>query_set>>x;
+
+            if(heavy[query_set]==0)
+            {
+                for(ll ind : sets[query_set])
+                {
+                    ar[ind]+=x;
+                }
+
+                for(ll i=1; i<color; i++)
+                {
+                    sum[i]+= 1LL * x * (ll)intersection[i][query_set];
+                }
+
+            }
+            else
+            {
+                to_add[heavy[query_set]]+=x;
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+    /* you should actually read the stuff at the bottom  */
+
+}
+
+/*
+
+    * do something instead of nothing and stay organized
+	* WRITE STUFF DOWN
+	* DON'T GET STUCK ON ONE APPROACH
+*/
+
+
+/* Final check before submit :
+
+1. array size or integer overflow,like uninitialised 0 index.
+
+2. Think twice,code once.check all possible counter test case.
+
+3. Be careful about corner case! n=1?k=1? something about 0?
+
+4. avoid stupid mistake!complexity(t/m)?precision error?submit same code twice?
+
+5. if got WA than remember that you are missing something common.
+   *** Be confident!!! who knows? may be your one step back to AC ***
+4. minus mod ans=(ans-k+mod)%mod;
+
+*/
+
+
+/* IF WA???
+
+1. corner case! n=1?k=1? something about 0?
+
+2. check code(avoid stupid mistake)
+
+3. read the statement again(if there any missing point???)
+
+4. check the idea(check all possible counter test case again!!!)
+
+5. be calm,don't be panic!!!.(***this problem not going to decide your future***)
+
+6. don't waste too much time. move to next problem
+
+*/
