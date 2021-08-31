@@ -1,0 +1,448 @@
+/*
+https://www.spoj.com/problems/COT2/en/
+
+*/
+
+
+
+#include<bits/stdc++.h>
+using namespace std;
+typedef         long long int   ll;
+typedef      long double   ld;
+typedef     vector<ll>      vll;
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using    namespace __gnu_pbds;
+typedef tree<int, null_type, less<ll>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
+#define     fi              first
+#define     se              second
+#define     pb              push_back
+#define     nn              "\n"
+#define     all(p)          p.begin(),p.end()
+#define     zz(v)           (ll)v.size()
+#define     S(a)            scanf("%lld",&a)
+#define     SS(a,b)         scanf("%lld %lld",&a,&b)
+#define     SSS(a,b,c)      scanf("%lld %lld %lld",&a,&b,&c)
+#define     ss              ' '
+#define     pii             pair<ll,ll>
+#define     gcd(a,b)        __gcd(a,b)
+#define     lcm(a,b)        (a*b)/gcd(a,b)
+
+ll n,m;
+
+const ll N = 1e5+9;
+
+
+
+
+vll adj[N];
+
+ll a[N*3];
+
+ll in[N];
+ll out[N];
+
+ll x;
+
+struct query
+{
+    ll l,r,id;
+    ll typ;
+};
+
+ll val[N];
+query queries[N+4];
+
+struct LowestCommonAncestor
+{
+    int N, root = 0, po;
+
+    vector <vector <int> > g;
+    vector <vector <int> > sptab;
+    vector <int> depth;
+    vector <int> parent;
+
+    void Init(int _n)
+    {
+        N = _n;
+        po = log2((N)) + 1;
+        g.assign(N, {});
+        depth.resize(N);
+        parent.resize(N);
+        sptab.assign(N, {});
+    }
+    void AddEdge(int u, int v)
+    {
+        g[u].push_back(v);
+        g[v].push_back(u);
+    }
+    void Dfs(int u, int par = -1)
+    {
+        if(par == -1)
+        {
+            depth[u] = 0;
+            parent[u] = -1;
+        }
+        for(int v : g[u])
+        {
+            if (v == par) continue;
+            parent[v] = u;
+            depth[v] = depth[u] + 1;
+            Dfs(v, u);
+        }
+    }
+    void SparceTable()
+    {
+        for(int i = 0 ; i < N ; i++) sptab[i][0] = parent[i];
+        for(int j = 1 ; (1 << j) < N ; j++)
+        {
+            for(int i = 0 ; i < N ; i++)
+            {
+                if(sptab[i][j - 1] != -1)
+                {
+                    sptab[i][j] = sptab[sptab[i][j - 1]][j - 1];
+                }
+            }
+        }
+    }
+    void Build()
+    {
+        for(int i = 0 ; i < N ; i++)
+        {
+            for(int j = 0 ; j <= po ; j++)
+            {
+                sptab[i].push_back(-1);
+            }
+        }
+        Dfs(root);
+        SparceTable();
+    }
+    int Lca(int u, int v)
+    {
+        if(depth[u] < depth[v]) swap(u, v);
+        int log;
+        for(log = 1 ; (1 << log) <= depth[u] ; log++);
+        log--;
+        for(int i = log ; i >= 0 ; i--)
+        {
+            if(depth[u] - (1 << i) >= depth[v])
+            {
+                u = sptab[u][i];
+            }
+        }
+        if(u == v) return u;
+        for(int i = log ; i >= 0 ; i--)
+        {
+            if(sptab[u][i] != -1 && sptab[u][i] != sptab[v][i])
+            {
+                u = sptab[u][i];
+                v = sptab[v][i];
+            }
+        }
+        return parent[u];
+    }
+    int KthAncestor(int u, int k)
+    {
+        int log;
+        for(log = 1 ; (1 << log) <= depth[u] ; log++);
+        log--;
+        for(int i = log ; i >= 0 ; i--)
+        {
+            if(k - (1 << i) >= 0)
+            {
+                u = sptab[u][i];
+                k -= (1 << i);
+            }
+        }
+        return u;
+    }
+    int Getdist(int u, int v)
+    {
+        return (depth[u] + depth[v] - (2 * (depth[Lca(u, v)]))) ;
+    }
+    bool IsAnsector(int u, int v)
+    {
+        int cur = Lca(u, v);
+        if(cur == u) return 1;
+        return 0;
+    }
+} lca;
+
+
+
+void dfs(ll u,ll p)
+{
+    in[u]=x;
+    a[x++]=u;
+
+    for(ll j : adj[u])
+    {
+        if(j==p) continue;
+
+        dfs(j,u);
+    }
+
+    out[u]=x;
+    a[x++]=u;
+}
+
+ll block=320;
+
+bool cmp(query p1, query p2)
+{
+    ll b_a=p1.l/block;
+    ll b_b=p2.l/block;
+
+    if(b_a!=b_b) return b_a < b_b;
+
+    return p1.r < p2.r;
+}
+
+
+ll uni=0;
+
+ll freq[N+11];
+
+ll node[N+1];
+
+void add(ll idx)
+{
+    ll n1 = a[idx];
+    node[n1]++;
+
+    if(node[n1]==1)
+    {
+        freq[val[n1]]++;
+        if(freq[val[n1]]==1) uni++;
+    }
+    else
+    {
+        freq[val[n1]]--;
+        if(freq[val[n1]]==0) uni--;
+    }
+
+}
+
+void del(ll idx)
+{
+    ll n1 = a[idx];
+    node[n1]--;
+
+    if(node[n1]==1)
+    {
+        freq[val[n1]]++;
+        if(freq[val[n1]]==1) uni++;
+    }
+    else
+    {
+        freq[val[n1]]--;
+        if(freq[val[n1]]==0) uni--;
+    }
+
+
+
+
+}
+
+
+
+int main()
+{
+
+//    ios::sync_with_stdio(0);
+//    cin.tie(0);
+
+
+
+    cin>>n>>m;
+
+    lca.Init(n);
+
+    set<ll>st;
+
+    ll cm=1;
+
+    map<ll,ll>mp;
+
+
+    for(ll i=0; i<n; i++)
+    {
+        cin>>val[i];
+        st.insert(val[i]);
+    }
+
+    for(ll j : st) mp[j]=cm++;
+
+    for(ll i=0; i<n; i++)
+    {
+        val[i]=mp[val[i]];
+    }
+
+    for(ll i=0; i<n-1; i++)
+    {
+        ll u,v;
+
+        cin>>u>>v;
+
+        u--,v--;
+
+        adj[u].pb(v);
+        adj[v].pb(u);
+
+        lca.AddEdge(u,v);
+
+    }
+
+    lca.Build();
+
+    dfs(0,-1);
+
+    pii qq[m];
+
+    for(ll i=0; i<m; i++)
+    {
+        ll u,v;
+        cin>>u>>v;
+        u--,v--;
+
+        qq[i]= {u,v};
+
+        ll l, r;
+
+
+        if(in[u]>in[v]) swap(u,v);
+
+        ll LCA = lca.Lca(u,v);
+
+        if(LCA == u)
+        {
+            l = in[u];
+            r = in[v];
+
+            queries[i].typ=0;
+        }
+        else
+        {
+            queries[i].typ=1;
+
+            l = out[u];
+            r = in[v];
+        }
+
+        queries[i].l=l;
+        queries[i].r=r;
+        queries[i].id=i;
+
+
+    }
+
+
+//    for(ll i=0;i<x;i++)
+//    {
+//        cout<<a[i]<<ss;
+//    }
+//    cout<<nn;
+
+    sort(queries,queries+m,cmp);
+
+
+    ll L=0,R=-1;
+
+    ll ans[m];
+
+    for(ll i=0; i<m; i++)
+    {
+
+
+
+        while(R<queries[i].r) add(++R);
+        while(R>queries[i].r) del(R--);
+
+        while(L<queries[i].l) del(L++);
+        while(L>queries[i].l) add(--L);
+
+        //   cout<<L<<ss<<R<<nn;
+
+
+
+        ll type=queries[i].typ;
+
+        if(type==1)
+        {
+
+
+            ll u,v;
+
+            u=qq[queries[i].id].fi;
+            v=qq[queries[i].id].se;
+
+            if(in[u]>in[v]) swap(u,v);
+
+            ll LCA = lca.Lca(u,v);
+
+            ll num=val[LCA];
+
+            freq[num]++;
+
+            if(freq[num]==1) ans[queries[i].id]=uni+1;
+            else ans[queries[i].id]=uni;
+
+            freq[num]--;
+
+        }
+        else
+            ans[queries[i].id]=uni;
+
+
+    }
+
+
+    for(ll i=0; i<m; i++)
+    {
+        cout<<ans[i]<<nn;
+    }
+
+
+
+
+
+
+
+
+
+
+}
+
+
+/* Final check before submit :
+
+1. array size or integer overflow,like uninitialised 0 index.
+
+2. Think twice,code once.check all possible counter test case.
+
+3. Be careful about corner case! n=1?k=1? something about 0?
+
+4. avoid stupid mistake!complexity(t/m)?precision error?submit same code twice?
+
+5. if got WA than remember that you are missing something common.
+   *** Be confident!!! who knows? may be your one step back to AC ***
+4. minus mod ans=(ans-k+mod)%mod;
+
+*/
+
+
+/* IF WA???
+
+1. corner case! n=1?k=1? something about 0?
+
+2. check code(avoid stupid mistake)
+
+3. read the statement again(if there any missing point???)
+
+4. check the idea(check all possible counter test case again!!!)
+
+5. be calm,don't be panic!!!.(***this problem not going to decide your future***)
+
+6. don't waste too much time. move to next problem
+
+*/
