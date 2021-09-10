@@ -1,14 +1,16 @@
 -variable(a variable is a container for a particular type of data)
 -Datatype,typecasting
 
-    // int - 4 bytes 
+  
+
+    // int - 4 bytes - %d
     // -2^31 to 2^31 or -2,147,483,648 to 2,147,483,647 or 2*10^9
 
-    // long long int - 8 bytes
+    // long long int - 8 bytes - %lld
     // -2^63 to 2^63 or 2*10^18
 
-    // float - 4 bytes
-    // double - 8 bytes
+    // float - 4 bytes - %f
+    // double - 8 bytes -%lf
 
 -operator : 
 +,-,*,/,++,--
