@@ -1,0 +1,15 @@
+
+-character ascii value :
+list - http://sticksandstones.kstrom.com/appen.html
+* lower 97-122
+* upper 65-90
+* [0 – 9] ranges from [48 – 57]
+
+char - 1 byte 
+
+-string :
+https://www.tutorialspoint.com/cprogramming/c_strings.htm
+https://www.programiz.com/c-programming/c-strings
+
+
+
