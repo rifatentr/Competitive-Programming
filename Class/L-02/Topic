@@ -8,8 +8,31 @@ list - http://sticksandstones.kstrom.com/appen.html
 char - 1 byte 
 
 -string :
+
 https://www.tutorialspoint.com/cprogramming/c_strings.htm
 https://www.programiz.com/c-programming/c-strings
+
+
+array -
+
+sorting Algorithms- 
+
+Bubble sort - https://www.geeksforgeeks.org/bubble-sort/
+Selection sort - https://www.geeksforgeeks.org/selection-sort/
+Insertion sort - https://www.geeksforgeeks.org/insertion-sort/
+
+
+online judge problem:
+
+https://atcoder.jp/contests/abc218/tasks/abc218_b
+https://codeforces.com/contest/546/problem/A
+https://codeforces.com/contest/705/problem/A
+https://atcoder.jp/contests/abc213/tasks/abc213_b
+
+
+
+
+
 
 
 
