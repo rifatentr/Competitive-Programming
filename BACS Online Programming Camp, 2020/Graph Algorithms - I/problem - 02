@@ -1,0 +1,9 @@
+Walking in a Tree 
+
+You have to start from the root and visit each node at least once. The cost of traversing each edge is one.
+If any edge is visited multiple times, the cost will occur for each time. Minimize the total cost.
+
+Variation 1 : Must return to the starting  node AKA root.(Simple DFS)
+Variation 2 : journey can end at any node.(Max Distance)
+variation 3 : start at any node and end at any node.(Diameter)
+
