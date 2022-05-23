@@ -1,1 +1,11 @@
-1
+ Farthest distance of a node from Root
+- Given a tree-structured graph and root 
+- Find the farthest distance of a node from this tree 
+
+Solution : 
+
+- distance[u] : farthest distance from U in U's subtree
+- distance[u] = 1 + maximum{distance[V]: V is U's child}
+
+
+
