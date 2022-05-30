@@ -31,52 +31,6 @@ int main()
     cin.tie(0);
 
 
-    ll t;
-    cin>>t;
-    while(t--)
-    {
-        ll n;
-        cin>>n;
-        ll a[n];
-        for(ll i=0; i<n; i++)
-        {
-            cin>>a[i];
-        }
-        ll cnt = 1;
-        ll j = n-1;
-        while(j-1>=0&& a[j-1]==a[j])
-        {
-            cnt++;
-            j--;
-        }
-
-        if(cnt==n)
-        {
-            cout<<0<<nn;
-            continue;
-        }
-        ll val = a[n-1];
-
-        ll ans = 0;
-        while(cnt<n)
-        {
-            ans++;
-            cnt*=2;
-
-            //cout<<cnt<<nn;
-
-            ll c = n - cnt;
-            while(c-1>=0 && a[c-1]==val)
-            {
-                c--;
-                cnt++;
-            }
-        }
-
-        cout<<ans<<nn;
-    }
-
-
 
     /* you should actually read the stuff at the bottom  */
 
