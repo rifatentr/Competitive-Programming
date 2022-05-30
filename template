@@ -1,35 +1,94 @@
-/*    ***Bismillahir Rahmanir Rahim***   */
+/*   Bismillahir Rahmanir Rahim   */
+
 #include<bits/stdc++.h>
 using namespace std;
-typedef       long long int   ll;
+typedef   long long  int   ll;
 typedef      long double   ld;
 typedef     vector<ll>      vll;
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using    namespace __gnu_pbds;
+typedef tree<ll, null_type, less<ll>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
 #define     fi              first
-#define     print(v)        for(ll i:v) cout<<i<<ss
 #define     se              second
 #define     pb              push_back
+#define Fin          freopen("input.txt","r",stdin)
+#define Fout         freopen("output.txt","w",stdout)
 #define     nn              "\n"
 #define     all(p)          p.begin(),p.end()
 #define     zz(v)           (ll)v.size()
-#define     S(a)            scanf("%lld",&a)
-#define     SS(a,b)         scanf("%lld %lld",&a,&b)
-#define     SSS(a,b,c)      scanf("%lld %lld %lld",&a,&b,&c)
 #define     ss              ' '
-#define     pii             pair<ll,ll>
+#define     pii            pair<ll,ll>
 #define     gcd(a,b)        __gcd(a,b)
 #define     lcm(a,b)        (a*b)/gcd(a,b)
-const double eps = 1e-7;
+
 
 
 int main()
 {
 
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+
+
+    ll t;
+    cin>>t;
+    while(t--)
+    {
+        ll n;
+        cin>>n;
+        ll a[n];
+        for(ll i=0; i<n; i++)
+        {
+            cin>>a[i];
+        }
+        ll cnt = 1;
+        ll j = n-1;
+        while(j-1>=0&& a[j-1]==a[j])
+        {
+            cnt++;
+            j--;
+        }
+
+        if(cnt==n)
+        {
+            cout<<0<<nn;
+            continue;
+        }
+        ll val = a[n-1];
+
+        ll ans = 0;
+        while(cnt<n)
+        {
+            ans++;
+            cnt*=2;
+
+            //cout<<cnt<<nn;
+
+            ll c = n - cnt;
+            while(c-1>=0 && a[c-1]==val)
+            {
+                c--;
+                cnt++;
+            }
+        }
+
+        cout<<ans<<nn;
+    }
 
 
 
-
+    /* you should actually read the stuff at the bottom  */
 
 }
+
+/*
+
+    * do something instead of nothing and stay organized
+    * WRITE STUFF DOWN
+    * DON'T GET STUCK ON ONE APPROACH
+*/
+
 
 /* Final check before submit :
 
@@ -44,6 +103,8 @@ int main()
 5. if got WA than remember that you are missing something common.
    *** Be confident!!! who knows? may be your one step back to AC ***
 4. minus mod ans=(ans-k+mod)%mod;
+
+
 
 */
 
