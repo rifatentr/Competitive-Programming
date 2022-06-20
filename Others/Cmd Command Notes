@@ -1,0 +1,23 @@
+
+Show all folder in current directory : dir   
+Clear the screen : cls 
+Show command meaning : command/? (cls/?)
+Change directory : cd foldername (press tab for recommandation)
+Previous director : cd .. 
+
+Folder Create : mkdir name1, name2, .... 
+Folder remove : rmdir name1, name2, .... (/s for delete all file )
+
+File create : echo > name.exe or type nul > file.exe
+File Delete : del filename.extenstion 
+File write  : echo  text > file.exe  (>> for add)
+File Read   : type file.exe 
+
+Open file in Vs code : start code file.exe 
+Word by Word Navi : (Ctrl + right/left arrow)
+
+
+
+
+
+
