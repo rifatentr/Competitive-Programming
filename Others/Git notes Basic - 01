@@ -6,6 +6,7 @@
  git config user.name
  git config user.email 
  
+ clear screen : ctrl + l
  
  
  Creat git Folder :
@@ -20,7 +21,42 @@
  git status (Untracked files) 
  
  
-  clear screen : ctrl + l
- 
- 
+Staging :
+
+git add filename 
+git add -A (all file in directory and subdirectory)
+git add . (only dir)
+
+git add*.js(dir wildcard)
+git add**/*.js(dir and subdir)
+
+git restore 
+git diff (check diff)
+
+
+
+
+Commit (Stage to Local) : 
+
+
+git commit -m "message" (stage to local)
+git commit -am "message" (stage + commit)
+git log (commit history)
+git checkout filename (undo)
+
+Uncommit :
+
+git reset --soft HEAD^ (stage)
+git reset HEAD^ (working dir)
+git reset --hard HEAD^ (delete)
+
+
+git show commit id 
+git log --oneline 
+git checkout commit id Or master
+
+
+
+
+
  
