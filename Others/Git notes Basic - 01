@@ -1,0 +1,26 @@
+ Usernamne config : git config --global user.name "username"
+ Email config  : git config --gloabal   user.email "abc@gmail.com"
+ 
+ Show list : 
+ git config --list 
+ git config user.name
+ git config user.email 
+ 
+ 
+ 
+ Creat git Folder :
+ 
+ mkdir notes
+ cd notes 
+ ls (show file in directory)
+ ls -a (show hidden file also)
+ git init 
+ touch f1.txt 
+ start f1.txt 
+ git status (Untracked files) 
+ 
+ 
+  clear screen : ctrl + l
+ 
+ 
+ 
