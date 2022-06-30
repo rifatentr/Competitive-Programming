@@ -1,0 +1,2 @@
+// You are given an array of numbers A[]. You have to answer different queries. Each query will have 
+// one number X. You need to find a number from the array A[i] such that (A[i] xor X) is maximum.
