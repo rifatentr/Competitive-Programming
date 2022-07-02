@@ -1,0 +1,111 @@
+#include<bits/stdc++.h>
+using namespace std;
+typedef    long long    ll;
+typedef      long double   ld;
+typedef     vector<ll>      vll;
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using    namespace __gnu_pbds;
+typedef tree<ll, null_type, less<ll>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
+#define     fi              first
+#define     se              second
+#define     pb              push_back
+#define Fin          freopen("input.txt","r",stdin)
+#define Fout         freopen("output.txt","w",stdout)
+#define     nn              "\n"
+#define     all(p)          p.begin(),p.end()
+#define     zz(v)           (ll)v.size()
+#define     ss              ' '
+#define     pii            pair<ll,ll>
+#define     gcd(a,b)        __gcd(a,b)
+#define     lcm(a,b)        (a*b)/gcd(a,b)
+
+
+
+const ll N = 1e6 + 9;
+const ll B = 29;
+const ll MOD = 1e9 + 7;
+
+ll power[N], inverse[N], _B;
+ll prefix[N];
+
+string s;
+
+
+ll bigMod(ll b, ll e)
+{
+    if(e == 0)
+        return 1;
+    if(e == 1)
+        return b;
+
+    if(e%2==0)
+    {
+        ll ret = bigMod(b, e/2);
+        return ret * ret % MOD;
+    }
+    else
+        return b * bigMod(b, e - 1) % MOD;
+}
+
+// 0 index range hash
+ll range_hash(ll i,ll j)
+{
+    ll ret = prefix[j+1] - prefix[i];
+    if(ret < 0)
+        ret += MOD;
+    ret = ret * inverse[i] % MOD;
+
+    return ret;
+}
+
+
+void init()
+{
+    power[0] = 1;
+    for(ll i=1; i < N ; i++)
+    {
+        power[i] = (power[i-1] * B ) % MOD;
+    }
+
+    _B = bigMod(B, MOD - 2);
+    inverse[0] = 1;
+    for(ll i=1; i < N; i++)
+    {
+        inverse[i] = (inverse[i-1] * _B) % MOD;
+    }
+
+}
+
+
+
+
+int main()
+{
+
+//    ios::sync_with_stdio(0);
+//    cin.tie(0);
+
+    init();
+
+    cin>>s;
+    ll n = zz(s);
+
+    prefix[0] = 0;
+    for(ll i = 0; i < zz(s) ; i++)
+    {
+        prefix[i+1] = (prefix[i] + (s[i] - 'a' + 1) * power[i]) % MOD;
+    }
+
+    for(ll i=0; i<n-1; i++)
+    {
+        if(range_hash(0,i) == range_hash(n-(i+1),n-1))
+        {
+            cout<<i+1<<" ";
+        }
+    }
+    cout<<nn;
+
+    /* you should actually read the stuff at the bottom  */
+
+}
