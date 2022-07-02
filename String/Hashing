@@ -1,0 +1,118 @@
+
+#include<bits/stdc++.h>
+using namespace std;
+typedef    long long    ll;
+typedef      long double   ld;
+typedef     vector<ll>      vll;
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using    namespace __gnu_pbds;
+typedef tree<ll, null_type, less<ll>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
+#define     fi              first
+#define     se              second
+#define     pb              push_back
+#define Fin          freopen("input.txt","r",stdin)
+#define Fout         freopen("output.txt","w",stdout)
+#define     nn              "\n"
+#define     all(p)          p.begin(),p.end()
+#define     zz(v)           (ll)v.size()
+#define     ss              ' '
+#define     pii            pair<ll,ll>
+#define     gcd(a,b)        __gcd(a,b)
+#define     lcm(a,b)        (a*b)/gcd(a,b)
+
+
+const ll N = 2e6 + 9;
+const ll B = 29;
+const ll MOD = 1e9 + 7;
+
+ll power[N];
+ll inverse[N],INV_B;
+
+ll bigMod(ll b, ll e)
+{
+    if(e == 0)
+        return 1;
+    if(e == 1)
+        return b;
+
+    if(e%2==0)
+    {
+        ll ret = bigMod(b,e/2);
+        return ret * ret % MOD;
+    }
+    else
+        return b * bigMod(b,e-1) % MOD;
+
+}
+
+void init()
+{
+    power[0] = 1;
+    for(ll i = 1; i < N; i++)
+    {
+        power[i] = (power[i - 1] * B )% MOD;
+    }
+
+    INV_B = bigMod(B, MOD - 2);
+
+    inverse[0] = 1;
+
+    for(ll i = 1; i < N; i++)
+    {
+        inverse[i] = (inverse[i-1] * INV_B ) % MOD;
+    }
+
+}
+
+int main()
+{
+
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+
+    init();
+
+    string t,p;
+    cin>>t>>p;
+    ll ans = 0;
+
+    ll p_hash = 0;
+    for(ll i = 0; i < zz(p); i++)
+    {
+        p_hash = (p_hash + (p[i] - 'a' + 1) * power[i]) % MOD;
+    }
+
+    ll t_hash = 0;
+    for(ll i = 0; i < zz(p); i++)
+    {
+        t_hash = (t_hash + (t[i] - 'a' + 1) * power[i]) % MOD;
+    }
+
+
+    for(ll i = 0; i <= zz(t) - zz(p); i++)
+    {
+        if(t_hash == p_hash)
+        {
+            ans++;
+        }
+
+        t_hash -= t[i] - 'a' + 1;
+        if(t_hash < 0)
+            t_hash += MOD;
+        t_hash = t_hash * inverse[1] % MOD;
+
+        if(i + zz(p) < zz(t))
+        {
+            t_hash = (t_hash + (t[i+zz(p)] - 'a' + 1) * power[zz(p) - 1] ) % MOD;
+        }
+    }
+
+
+    cout<<ans<<nn;
+
+
+
+    /* you should actually read the stuff at the bottom  */
+
+}
