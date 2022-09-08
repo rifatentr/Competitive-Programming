@@ -1,0 +1,6 @@
+ Command...
+
+dotnet new webapi --name myFristApi
+dotnet build
+dotnet run 
+
