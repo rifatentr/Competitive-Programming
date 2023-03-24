@@ -1,1 +1,11 @@
-1.
+Udemy : 
+The Complete Angular Course: Beginner to Advanced - Section 1-6
+
+Enviroment setup : 
+1. Install Nodejs 
+2. Install Angular cli 
+  command : npm install -g @angular/cli
+3.creat a Angular project 
+  command : ng new name 
+4. Build a this project 
+   command : ng serve --open
